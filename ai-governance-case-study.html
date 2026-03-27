@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Governance Copilot — Case Study | Marc Louis-Charles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #111110;
+      --ink-soft: #55554e;
+      --ink-muted: #99998f;
+      --paper: #fafaf8;
+      --paper-warm: #f3f2ee;
+      --accent: #1e40af;
+      --accent-light: #eff6ff;
+      --accent2: #c8622a;
+      --border: #e4e3de;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 4rem;
+      background: rgba(250,250,248,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--ink-soft); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    /* LAYOUT */
+    .page-layout {
+      display: grid; grid-template-columns: 220px 1fr;
+      min-height: 100vh; padding-top: 68px;
+    }
+
+    .sidebar {
+      position: sticky; top: 68px; height: calc(100vh - 68px);
+      padding: 3rem 2rem; border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 0.25rem; overflow-y: auto;
+    }
+    .sidebar-label {
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-muted); margin-bottom: 1rem; margin-top: 0.5rem;
+    }
+    .sidebar a {
+      font-size: 0.82rem; color: var(--ink-muted); text-decoration: none;
+      padding: 0.4rem 0.75rem; border-left: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s; display: block;
+    }
+    .sidebar a:hover, .sidebar a.active { color: var(--accent); border-left-color: var(--accent); }
+
+    /* HERO */
+    .case-hero {
+      background: #0f172a;
+      padding: 6rem 4rem; position: relative; overflow: hidden;
+      min-height: 500px; display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .case-hero::before {
+      content: ''; position: absolute; top: -100px; right: -100px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(30,64,175,0.25) 0%, transparent 70%);
+    }
+    .case-hero::after {
+      content: ''; position: absolute; bottom: -60px; left: 4rem;
+      width: 300px; height: 300px; border-radius: 50%;
+      border: 1px solid rgba(200,98,42,0.15);
+    }
+
+    .hero-meta {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
+      position: relative; z-index: 1; animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero-tag {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      color: #93c5fd; background: rgba(30,64,175,0.2); border: 1px solid rgba(30,64,175,0.4);
+      padding: 0.25rem 0.75rem;
+    }
+    .hero-tag-plain { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+
+    .case-hero h1 {
+      font-family: var(--serif); font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+      color: #fff; line-height: 1.05; margin-bottom: 1.25rem;
+      position: relative; z-index: 1; animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .case-hero h1 em { font-style: italic; color: rgba(255,255,255,0.45); }
+
+    .case-hero p.hero-desc {
+      font-size: 1rem; color: rgba(255,255,255,0.55); max-width: 60ch;
+      line-height: 1.8; position: relative; z-index: 1; animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .hero-stats-row {
+      display: flex; gap: 3rem; margin-top: 3rem; padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      position: relative; z-index: 1; animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .hero-stat-val { font-family: var(--serif); font-size: 1.8rem; color: #fff; line-height: 1; margin-bottom: 0.2rem; }
+    .hero-stat-label { font-size: 0.68rem; color: rgba(255,255,255,0.3); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* SECTIONS */
+    .case-section { padding: 5rem 4rem; border-bottom: 1px solid var(--border); }
+    .case-section:last-child { border-bottom: none; }
+
+    .section-eyebrow { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2.5rem; }
+    .eyebrow-num { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+    .eyebrow-title { font-family: var(--serif); font-size: clamp(1.75rem, 2.5vw, 2.25rem); color: var(--ink); line-height: 1.1; }
+
+    .prose { font-size: 1rem; color: var(--ink-soft); line-height: 1.9; max-width: 68ch; }
+    .prose strong { color: var(--ink); font-weight: 500; }
+
+    /* OVERVIEW */
+    .overview-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 5rem; align-items: start; }
+    .overview-meta { display: flex; flex-direction: column; gap: 1px; }
+    .meta-item {
+      padding: 1.25rem 1.5rem; background: var(--paper-warm);
+      border-left: 2px solid transparent; transition: border-color 0.2s;
+    }
+    .meta-item:hover { border-left-color: var(--accent); }
+    .meta-item h4 { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+    .meta-item p { font-size: 0.88rem; color: var(--ink-soft); }
+
+    /* PROBLEM */
+    .problem-section { background: var(--paper-warm); }
+    .problem-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .problem-card { background: var(--paper); padding: 2rem; }
+    .problem-card .num { font-family: var(--serif); font-size: 3rem; color: var(--border); line-height: 1; margin-bottom: 1rem; }
+    .problem-card h3 { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.75rem; }
+    .problem-card p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.7; }
+
+    /* OPPORTUNITY */
+    .opportunity-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .opp-card { background: var(--paper); padding: 2rem; transition: background 0.2s; }
+    .opp-card:hover { background: var(--accent-light); }
+    .opp-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .opp-card h3 { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.5rem; }
+    .opp-card p { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.65; }
+
+    /* PERSONAS */
+    .persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .persona-card { background: var(--paper); padding: 2rem; }
+    .persona-role { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .persona-name { font-family: var(--serif); font-size: 1.3rem; color: var(--ink); margin-bottom: 0.5rem; }
+    .persona-job { font-size: 0.8rem; color: var(--ink-muted); margin-bottom: 1rem; }
+    .persona-pain {
+      padding: 0.85rem 1rem; background: var(--paper-warm); border-left: 2px solid var(--accent);
+      font-size: 0.82rem; color: var(--ink-soft); line-height: 1.65;
+    }
+    .persona-pain strong { color: var(--ink); font-weight: 500; }
+
+    /* WORKFLOW */
+    .workflow-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; position: relative; }
+    .workflow-step { background: var(--paper); padding: 2rem 1.5rem; text-align: center; }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%; background: var(--accent);
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; margin: 0 auto 1rem;
+    }
+    .step-title { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.5rem; }
+    .step-desc { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.6; }
+
+    /* FEATURES */
+    .features-section { background: var(--paper-warm); }
+    .feature-block { display: grid; grid-template-columns: 1fr 1.5fr; gap: 2px; background: var(--border); margin-bottom: 2px; }
+    .feature-block:last-child { margin-bottom: 0; }
+    .feature-meta { background: #0f172a; padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; }
+    .feature-badge {
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      color: #93c5fd; background: rgba(30,64,175,0.2); border: 1px solid rgba(30,64,175,0.3);
+      padding: 0.2rem 0.6rem; display: inline-block; margin-bottom: 1rem; width: fit-content;
+    }
+    .feature-name { font-family: var(--serif); font-size: 1.5rem; color: white; margin-bottom: 0.75rem; }
+    .feature-purpose { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+    .feature-content { background: var(--paper); padding: 2.5rem; }
+    .feature-content h4 { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .feature-list li { font-size: 0.88rem; color: var(--ink-soft); display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.6; }
+    .feature-list li::before { content: '→'; color: var(--accent); flex-shrink: 0; }
+
+    /* METRICS */
+    .metrics-dark { background: #0f172a; }
+    .metrics-dark .eyebrow-num { color: rgba(30,64,175,0.8); }
+    .metrics-dark .eyebrow-title { color: white; }
+    .metrics-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; background: rgba(255,255,255,0.05); margin-top: 3rem; }
+    .metric-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 2rem; text-align: center; }
+    .metric-val { font-family: var(--serif); font-size: 2rem; color: #93c5fd; line-height: 1; margin-bottom: 0.35rem; }
+    .metric-label { font-size: 0.68rem; color: rgba(255,255,255,0.35); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.5; }
+
+    /* SCOPE */
+    .scope-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .scope-col { background: var(--paper); padding: 2rem; }
+    .scope-col h4 { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 2px solid; }
+    .scope-col.must h4 { color: var(--accent); border-color: var(--accent); }
+    .scope-col.should h4 { color: #ca8a04; border-color: #ca8a04; }
+    .scope-col.wont h4 { color: var(--ink-muted); border-color: var(--border); }
+    .scope-item { font-size: 0.82rem; color: var(--ink-soft); display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.6rem; line-height: 1.55; }
+    .scope-item::before { content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 0.45rem; }
+    .must .scope-item::before { background: var(--accent); }
+    .should .scope-item::before { background: #ca8a04; }
+    .wont .scope-item::before { background: var(--border); }
+
+    /* VALIDATION */
+    .validation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; }
+    .validation-card { padding: 2rem; background: var(--paper-warm); border-left: 3px solid var(--accent); }
+    .validation-card h4 { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .validation-card p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.75; }
+    .q-item { display: flex; gap: 0.75rem; margin-bottom: 0.75rem; }
+    .q-num { font-size: 0.68rem; font-weight: 700; color: var(--accent); flex-shrink: 0; margin-top: 0.2rem; }
+    .q-text { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.65; }
+
+    /* REFLECTION */
+    .reflection-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; }
+    .reflection-card { padding: 2rem; background: var(--paper-warm); border-left: 3px solid var(--border); }
+    .reflection-card.highlight { border-left-color: var(--accent); }
+    .reflection-card h4 { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .reflection-card p { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.8; }
+
+    /* FOOTER */
+    .case-footer {
+      padding: 5rem 4rem; background: var(--paper-warm); border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-text h3 { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); margin-bottom: 0.5rem; }
+    .footer-text p { font-size: 0.88rem; color: var(--ink-soft); }
+    .footer-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--ink); color: var(--paper); text-decoration: none;
+      padding: 0.85rem 1.75rem; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: var(--ink-soft); text-decoration: none; font-size: 0.82rem;
+      padding: 0.85rem 1.75rem; border: 1px solid var(--border);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .case-hero, .case-section, .case-footer { padding: 3rem 1.5rem; }
+      .overview-grid, .problem-grid, .persona-grid, .opportunity-grid,
+      .scope-grid, .validation-grid, .reflection-grid,
+      .feature-block, .workflow-steps, .metrics-grid { grid-template-columns: 1fr; }
+      .hero-stats-row { flex-wrap: wrap; gap: 1.5rem; }
+      .case-footer { flex-direction: column; gap: 2rem; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="portfolio.html" class="nav-logo">Marc</a>
+  <a href="portfolio.html#work" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 7H2M6 3L2 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    All Case Studies
+  </a>
+</nav>
+
+<div class="page-layout">
+  <aside class="sidebar">
+    <p class="sidebar-label">On this page</p>
+    <a href="#overview">Overview</a>
+    <a href="#problem">The Problem</a>
+    <a href="#opportunity">Opportunity</a>
+    <a href="#personas">Personas</a>
+    <a href="#workflow">Workflow</a>
+    <a href="#features">Features</a>
+    <a href="#scope">MVP Scope</a>
+    <a href="#metrics">Success Metrics</a>
+    <a href="#validation">Validation Plan</a>
+    <a href="#reflection">Reflection</a>
+  </aside>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="case-hero" id="top">
+      <div class="hero-meta">
+        <span class="hero-tag">AI Prototype · Fintech</span>
+        <span class="hero-tag-plain">2026 · SaaS · Compliance</span>
+      </div>
+      <h1>AI Governance <em>Copilot</em></h1>
+      <p class="hero-desc">A purpose-built SaaS platform that automates model risk documentation and governance workflows for regulated financial institutions — reducing documentation time from weeks to hours.</p>
+      <div class="hero-stats-row">
+        <div>
+          <div class="hero-stat-val">4</div>
+          <div class="hero-stat-label">Core modules built</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">&lt;2h</div>
+          <div class="hero-stat-label">Target: intake to draft</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">80%</div>
+          <div class="hero-stat-label">SR 11-7 coverage target</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">30%</div>
+          <div class="hero-stat-label">Fewer audit findings goal</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OVERVIEW -->
+    <section class="case-section" id="overview">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">01</span>
+        <h2 class="eyebrow-title">Overview</h2>
+      </div>
+      <div class="overview-grid">
+        <div class="reveal">
+          <p class="prose">The AI Governance Copilot is a prototype I built to explore how AI can help compliance and model risk teams at fintechs and regulated financial institutions document, review, and audit AI models more efficiently. The core hypothesis: governance documentation is largely manual, repetitive, and inconsistent — and AI is well-suited to automate exactly those tasks.</p>
+          <p class="prose" style="margin-top:1.25rem;">Built during the <strong>AI Prototyping for PMs</strong> course using a vibe-coding approach on Magic Patterns, the prototype evolved into a full PRD with 5 core features, 4 user personas, defined success metrics, and a V1 → V2 roadmap. The tool targets the <strong>SR 11-7</strong> regulatory framework — the Federal Reserve's Model Risk Management guidance used by U.S. banking regulators.</p>
+        </div>
+        <div class="overview-meta reveal">
+          <div class="meta-item">
+            <h4>My Role</h4>
+            <p>Product Manager & Prototype Builder</p>
+          </div>
+          <div class="meta-item">
+            <h4>Context</h4>
+            <p>AI Prototyping for PMs — Week 3 deliverable</p>
+          </div>
+          <div class="meta-item">
+            <h4>Prototype Tool</h4>
+            <p>Magic Patterns (vibe coding mode)</p>
+          </div>
+          <div class="meta-item">
+            <h4>Target Market</h4>
+            <p>Fintechs & banks deploying AI in regulated environments</p>
+          </div>
+          <div class="meta-item">
+            <h4>Regulatory Framework</h4>
+            <p>SR 11-7 · OCC 2011-12 · CFPB model risk guidance</p>
+          </div>
+          <div class="meta-item">
+            <h4>Business Model</h4>
+            <p>$10–20K MRR niche SaaS authority business</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="case-section problem-section" id="problem">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">02</span>
+        <h2 class="eyebrow-title">The Problem</h2>
+      </div>
+      <p class="prose reveal">Fintechs and AI-enabled financial startups are deploying high-impact models without structured, regulator-aligned governance frameworks. As AI adoption accelerates — model inventories are growing 30–50% annually — governance processes remain largely manual, slow, and inconsistent.</p>
+      <div style="margin-top:2rem;padding:1.5rem 2rem;background:#fef3c7;border-left:3px solid #f59e0b;" class="reveal">
+        <p style="font-size:0.78rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#92400e;margin-bottom:0.5rem;">Current State</p>
+        <p style="font-size:0.9rem;color:#78350f;line-height:1.7;">Manual intake → manual documentation → manual review → examiner findings → remediation cycle <strong>(6–12 weeks per model)</strong></p>
+        <div style="margin:1rem 0;display:flex;align-items:center;gap:1rem;">
+          <div style="flex:1;height:2px;background:#f59e0b;"></div>
+          <span style="font-size:0.72rem;font-weight:700;color:#92400e;">TARGET STATE</span>
+          <div style="flex:1;height:2px;background:#f59e0b;"></div>
+        </div>
+        <p style="font-size:0.9rem;color:#78350f;line-height:1.7;">Guided intake → AI-drafted documentation → automated gap scan → pre-reviewed evidence pack <strong>(1–2 weeks per model)</strong></p>
+      </div>
+      <div class="problem-grid reveal">
+        <div class="problem-card">
+          <div class="num">01</div>
+          <h3>Documentation Burden</h3>
+          <p>Each model requires 20–40 pages of governance documentation, often written entirely by hand. Model Risk Managers spend 60%+ of their time on documentation quality rather than actual risk analysis.</p>
+        </div>
+        <div class="problem-card">
+          <div class="num">02</div>
+          <h3>Inconsistent Quality</h3>
+          <p>Documentation varies by author — creating gaps that examiners flag during regulatory review. There's no structured, repeatable process to ensure consistent SR 11-7 coverage across models.</p>
+        </div>
+        <div class="problem-card">
+          <div class="num">03</div>
+          <h3>Late Risk Detection</h3>
+          <p>Governance gaps are discovered during committee review or regulatory exams — not during model development. This leads to costly remediation cycles and potential MRA/MRIA findings.</p>
+        </div>
+        <div class="problem-card">
+          <div class="num">04</div>
+          <h3>Scaling Pressure</h3>
+          <p>AI model inventories are growing 30–50% annually as AI adoption accelerates. Teams don't have the bandwidth to manually document every model to the standard regulators expect.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPPORTUNITY -->
+    <section class="case-section" id="opportunity">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">03</span>
+        <h2 class="eyebrow-title">The Opportunity</h2>
+      </div>
+      <p class="prose reveal">AI is well-suited to automate exactly the kind of structured, repeatable tasks that make governance so burdensome. The Copilot targets four specific workflow improvements where AI provides the highest leverage.</p>
+      <div class="opportunity-grid reveal">
+        <div class="opp-card">
+          <div class="opp-icon">💬</div>
+          <h3>Structured Interviews</h3>
+          <p>AI-guided conversations that collect model information without requiring teams to know SR 11-7 requirements upfront.</p>
+        </div>
+        <div class="opp-card">
+          <div class="opp-icon">📄</div>
+          <h3>Draft Documentation</h3>
+          <p>AI-generated governance docs from interview data — covering all 6 required SR 11-7 sections automatically.</p>
+        </div>
+        <div class="opp-card">
+          <div class="opp-icon">🔍</div>
+          <h3>Risk Identification</h3>
+          <p>Proactive gap detection that flags compliance risks and missing evidence before committee review or regulatory exams.</p>
+        </div>
+        <div class="opp-card">
+          <div class="opp-icon">📦</div>
+          <h3>Review Preparation</h3>
+          <p>Bundled evidence packs ready for internal review boards — fully organized, exportable, and examiner-appropriate.</p>
+        </div>
+      </div>
+
+      <!-- Market context -->
+      <div style="margin-top:3rem;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);" class="reveal">
+        <div style="background:var(--paper);padding:2rem;">
+          <p style="font-size:0.65rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;">Why Now</p>
+          <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.75;">Regulators interpret "models" broadly — anything used to inform or automate decisions falls under MRM expectations. SR 11-7 compliance is increasingly examined for AI/ML systems, especially Tier 1 use cases like underwriting, fraud, and AML.</p>
+        </div>
+        <div style="background:var(--paper);padding:2rem;">
+          <p style="font-size:0.65rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;">Market Gap</p>
+          <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.75;">Existing solutions are enterprise-only and expensive. There's a clear SMB fintech gap — smaller AI-deploying institutions need structured governance tools but can't afford enterprise platforms. High willingness to pay, low competition in the mid-market.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PERSONAS -->
+    <section class="case-section problem-section" id="personas">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">04</span>
+        <h2 class="eyebrow-title">Target Personas</h2>
+      </div>
+      <p class="prose reveal">The PRD defines four user personas across the governance org. The primary persona for the MVP is the <strong>Model Risk Manager</strong> — the person closest to the documentation burden and most likely to be an internal champion.</p>
+      <div class="persona-grid reveal">
+        <div class="persona-card" style="border-top:3px solid var(--accent);">
+          <p class="persona-role">Primary — MVP Focus</p>
+          <p class="persona-name">Model Risk Manager</p>
+          <p class="persona-job">2nd line of defense · Reviews and challenges model documentation</p>
+          <div class="persona-pain"><strong>Pain:</strong> Spends 60%+ of time on documentation quality, not actual risk analysis. Wants to spend time on risk decisions, not formatting docs.</div>
+        </div>
+        <div class="persona-card">
+          <p class="persona-role">Secondary</p>
+          <p class="persona-name">Model Developer</p>
+          <p class="persona-job">1st line · Builds models and produces initial documentation</p>
+          <div class="persona-pain"><strong>Pain:</strong> Doesn't know SR 11-7 requirements. Documentation is an afterthought — they build models, not compliance artifacts.</div>
+        </div>
+        <div class="persona-card">
+          <p class="persona-role">Executive Buyer</p>
+          <p class="persona-name">Chief Model Risk Officer</p>
+          <p class="persona-job">Executive · Ensures enterprise governance readiness</p>
+          <div class="persona-pain"><strong>Pain:</strong> No visibility into inventory-wide governance posture. Can't answer "how many models are Tier 1?" without a manual audit.</div>
+        </div>
+        <div class="persona-card">
+          <p class="persona-role">Exam Preparation</p>
+          <p class="persona-name">Compliance Officer</p>
+          <p class="persona-job">2nd/3rd line · Prepares for regulatory exams</p>
+          <div class="persona-pain"><strong>Pain:</strong> Scrambles to compile evidence packs before regulatory exams. Evidence is scattered across emails, docs, and spreadsheets.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORKFLOW -->
+    <section class="case-section" id="workflow">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">05</span>
+        <h2 class="eyebrow-title">End-to-End Workflow</h2>
+      </div>
+      <p class="prose reveal">The Copilot is designed as a linear, AI-assisted workflow — each step reduces manual effort and builds toward a complete, examiner-ready evidence pack. Every stage is AI-assisted, not AI-replaced: humans stay in control of final review and sign-off.</p>
+      <div class="workflow-steps reveal">
+        <div class="workflow-step">
+          <div class="step-num">1</div>
+          <div class="step-title">Model Inventory</div>
+          <div class="step-desc">User registers or selects an AI model. Tier and status auto-assigned on entry.</div>
+        </div>
+        <div class="workflow-step">
+          <div class="step-num">2</div>
+          <div class="step-title">AI Interview</div>
+          <div class="step-desc">Conversational intake extracts 7 structured governance fields through natural Q&A.</div>
+        </div>
+        <div class="workflow-step">
+          <div class="step-num">3</div>
+          <div class="step-title">Draft Docs</div>
+          <div class="step-desc">AI generates all 6 SR 11-7 documentation sections from the intake data.</div>
+        </div>
+        <div class="workflow-step">
+          <div class="step-num">4</div>
+          <div class="step-title">Digital Auditor</div>
+          <div class="step-desc">AI scans governance state and flags missing evidence, logical gaps, and red flags.</div>
+        </div>
+        <div class="workflow-step">
+          <div class="step-num">5</div>
+          <div class="step-title">Export Pack</div>
+          <div class="step-desc">Bundled evidence artifact ready for internal review board or regulatory exam.</div>
+        </div>
+      </div>
+      <!-- Key principle callout -->
+      <div style="margin-top:2rem;padding:1.5rem 2rem;background:#eff6ff;border:1px solid #bfdbfe;display:flex;gap:1rem;align-items:flex-start;" class="reveal">
+        <span style="font-size:1.25rem;flex-shrink:0;">🔒</span>
+        <div>
+          <p style="font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:0.35rem;">Key Design Principle</p>
+          <p style="font-size:0.88rem;color:#1e3a8a;line-height:1.7;">Tier scoring is <strong>fully deterministic and transparent</strong> — AI is used only for narrative generation and gap analysis, never for tier assignment. This ensures the governance output is defensible and auditable by regulators.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="case-section features-section" id="features">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">06</span>
+        <h2 class="eyebrow-title">Core Features</h2>
+      </div>
+      <p class="prose reveal">The prototype ships 4 modules on the landing page, plus a Governance Gap Scanner. Each module maps to a specific workflow stage and a distinct user pain point.</p>
+
+      <div style="margin-top:3rem;">
+        <!-- Feature 1 -->
+        <div class="feature-block reveal">
+          <div class="feature-meta">
+            <span class="feature-badge">Module 1</span>
+            <p class="feature-name">Inventory + Tiering Wizard</p>
+            <p class="feature-purpose">Build a structured model inventory record and get a risk-based tier classification based on deterministic scoring.</p>
+          </div>
+          <div class="feature-content">
+            <h4>What it does</h4>
+            <ul class="feature-list">
+              <li>6-section intake form (Model Basics, Intended Use, Data Profile, Model Approach, Materiality Signals, Controls Snapshot)</li>
+              <li>Weighted scoring across 5 dimensions: Financial Exposure (30%), Consumer Harm (20%), Regulatory Sensitivity (20%), Model Complexity (15%), Vendor Dependency (15%)</li>
+              <li>Hard overrides: Underwriting → Tier 1, AML → Tier 1, Fraud + decision impact → Tier 1</li>
+              <li>Outputs: Tier badge, risk scoring table, required artifacts checklist, assumptions section</li>
+              <li>Export as simulated PDF evidence pack</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-block reveal">
+          <div class="feature-meta">
+            <span class="feature-badge">Module 2</span>
+            <p class="feature-name">Conceptual Soundness Builder</p>
+            <p class="feature-purpose">Draft SR 11-7 conceptual soundness documentation through a structured intake and AI narrative generation.</p>
+          </div>
+          <div class="feature-content">
+            <h4>What it does</h4>
+            <ul class="feature-list">
+              <li>5-section intake: Problem Definition, Approach Rationale, Data & Lineage, Assumptions & Limitations, Operational Boundaries</li>
+              <li>AI generates narrative documentation covering Objective & Target, Approach Rationale, Model Flow Diagram, Assumptions, and Evidence Checklist</li>
+              <li>Pre-filled with sample fraud scoring model ("Sentinel Fraud Scoring") for instant exploration</li>
+              <li>One-click copy or export to evidence pack</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-block reveal">
+          <div class="feature-meta">
+            <span class="feature-badge">Module 3</span>
+            <p class="feature-name">Regulatory Scrutiny Packet</p>
+            <p class="feature-purpose">Generate an examiner-ready governance summary for models currently under or preparing for regulatory review.</p>
+          </div>
+          <div class="feature-content">
+            <h4>What it does</h4>
+            <ul class="feature-list">
+              <li>Intake covers: Exam Scenario, Model Status, Performance Snapshot, Governance Status, Remediation Plan (up to 3 gaps with owners and target dates)</li>
+              <li>Pre-filled with AML alert prioritization scenario</li>
+              <li>Outputs formal SR 11-7 Alignment Memo: Overview, Validation Summary, Monitoring & Change Management, Issues & Remediation table, Appendix Index</li>
+              <li>Professional, regulator-appropriate tone throughout — no emojis, no gradients</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-block reveal">
+          <div class="feature-meta">
+            <span class="feature-badge">Module 4 — Flagship</span>
+            <p class="feature-name">Tier Engine + Gap Scanner</p>
+            <p class="feature-purpose">Live deterministic risk scoring with full transparency — governance checklists update in real time as inputs change.</p>
+          </div>
+          <div class="feature-content">
+            <h4>What it does</h4>
+            <ul class="feature-list">
+              <li>5-step guided intake: Model Basics → Decisioning Context → Exposure → Model & Dependency → Review</li>
+              <li>Live right panel: Risk Score Card (color-coded Tier badge), Tier Classification Logic (threshold table + active overrides), Full Scoring Breakdown (weights, contributions, adjustments)</li>
+              <li>Dynamic governance checklist: Tier 1 = ~17 items, Tier 2 = ~10, Tier 3 = 3. Bias-related items appear only when customer-facing</li>
+              <li>Governance Gap Scanner: paste any governance text → Completeness Score, Maturity Level, Missing Mandatory Components, Remediation Checklist</li>
+              <li>Demo: Switch Business Function from Underwriting to Internal Optimization — score drops, tier changes, override disappears, checklist shrinks — all instantly</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MVP SCOPE -->
+    <section class="case-section" id="scope">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">07</span>
+        <h2 class="eyebrow-title">MVP Scope</h2>
+      </div>
+      <p class="prose reveal">The PRD uses a clear Must / Should / Won't framework to define what ships in V1, what gets deferred to stretch goals, and what's explicitly out of scope to maintain focus.</p>
+      <div class="scope-grid reveal">
+        <div class="scope-col must">
+          <h4>✓ Must Have — MVP</h4>
+          <div class="scope-item">Model Inventory Dashboard</div>
+          <div class="scope-item">Tier Engine (deterministic scoring)</div>
+          <div class="scope-item">AI Governance Interview (conversational intake)</div>
+          <div class="scope-item">Governance Draft Generator</div>
+          <div class="scope-item">Digital Auditor (gap detection)</div>
+          <div class="scope-item">Evidence Pack Export</div>
+          <div class="scope-item">Org-level authentication</div>
+        </div>
+        <div class="scope-col should">
+          <h4>~ Should Have — Stretch</h4>
+          <div class="scope-item">Evidence Mapping (artifact upload + AI classification)</div>
+          <div class="scope-item">Evaluation Rubric (structured scoring framework)</div>
+          <div class="scope-item">Governance score visible on dashboard</div>
+        </div>
+        <div class="scope-col wont">
+          <h4>✕ Won't Have — V2+</h4>
+          <div class="scope-item">Multi-user collaboration & comments</div>
+          <div class="scope-item">Workflow approvals (draft → review → approved)</div>
+          <div class="scope-item">Version history & diff tracking</div>
+          <div class="scope-item">Model registry integrations (MLflow, SageMaker)</div>
+          <div class="scope-item">SSO / SAML</div>
+          <div class="scope-item">Audit log export for regulators</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUCCESS METRICS -->
+    <section class="case-section metrics-dark" id="metrics">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">08</span>
+        <h2 class="eyebrow-title">Success Metrics</h2>
+      </div>
+      <p style="font-size:1rem;color:rgba(255,255,255,0.5);line-height:1.8;max-width:65ch;" class="reveal">Five quantitative targets define MVP success — each tied to a specific measurement method and a meaningful improvement over the current baseline.</p>
+      <div class="metrics-grid reveal">
+        <div class="metric-card">
+          <div class="metric-val">&lt;2h</div>
+          <div class="metric-label">Time to first draft documentation (from 2–4 weeks)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">&gt;80%</div>
+          <div class="metric-label">SR 11-7 sections covered per model (gap scan score)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">70%</div>
+          <div class="metric-label">User activation — complete at least one full workflow</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">30%</div>
+          <div class="metric-label">Fewer examiner findings on documented models (6-month lag)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">&gt;40</div>
+          <div class="metric-label">NPS score — quarterly survey</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALIDATION PLAN -->
+    <section class="case-section" id="validation">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">09</span>
+        <h2 class="eyebrow-title">Validation Plan</h2>
+      </div>
+      <p class="prose reveal">The prototype is designed to be tested with professionals in Model Risk Management, Compliance Teams, AI Governance, and Data Scientists in regulated industries. Three core questions drive the validation strategy.</p>
+      <div class="validation-grid reveal">
+        <div>
+          <div class="q-item">
+            <span class="q-num">Q1</span>
+            <span class="q-text">Would this reduce time spent creating governance docs? Could you see using this before your next model review cycle?</span>
+          </div>
+          <div class="q-item">
+            <span class="q-num">Q2</span>
+            <span class="q-text">Which governance tasks are most manual and time-consuming for your team today?</span>
+          </div>
+          <div class="q-item">
+            <span class="q-num">Q3</span>
+            <span class="q-text">Where could AI assistance provide the most value — intake, documentation drafting, or gap identification?</span>
+          </div>
+        </div>
+        <div class="validation-card">
+          <h4>Target Interviewees</h4>
+          <p>Model Risk Management professionals · Compliance Teams · AI Governance Teams · Data Scientists in regulated industries (fintech, banking, insurance)</p>
+          <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);">
+            <p style="font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem;">Next Step</p>
+            <p>Conduct discovery interviews with governance professionals and iterate on the workflow based on which modules they find most valuable.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REFLECTION -->
+    <section class="case-section" id="reflection">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">10</span>
+        <h2 class="eyebrow-title">Reflection</h2>
+      </div>
+      <p class="prose reveal">Building the AI Governance Copilot pushed me to think like both a PM and a product designer simultaneously — prototyping fast while making deliberate decisions about where AI should and shouldn't be involved in a regulated workflow.</p>
+      <div class="reflection-grid reveal">
+        <div class="reflection-card highlight">
+          <h4>Key Design Decision</h4>
+          <p>Keeping tier scoring fully deterministic — no AI in the classification step — was the most important product decision I made. In a regulated context, "the AI decided" is not an acceptable governance explanation. Every tier assignment needs to be explainable, auditable, and defensible. AI earns trust through transparency, not automation.</p>
+        </div>
+        <div class="reflection-card highlight">
+          <h4>What the Prototype Proved</h4>
+          <p>The vibe-coding approach via Magic Patterns let me move from idea to testable prototype in hours — validating the concept before writing a single line of production code. This is the PM superpower that AI prototyping unlocks: de-risking product bets cheaply and fast.</p>
+        </div>
+        <div class="reflection-card">
+          <h4>What I'd Validate Next</h4>
+          <p>The biggest open question is which module provides the most immediate value to users. My hypothesis is the Tier Engine + Gap Scanner — because it's the one place where compliance teams have no good existing tool. I'd run usability sessions with 3–5 Model Risk Managers before building anything else.</p>
+        </div>
+        <div class="reflection-card">
+          <h4>Market Strategy Insight</h4>
+          <p>Starting US-only and targeting the $10–20K MRR niche was the right call. Removing UAE from scope early eliminated legal complexity, sharpened the regulatory story (SR 11-7 is well-understood), and gave the prototype a clear, credible anchor. Clarity beats optionality in early-stage product work.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER CTA -->
+    <div class="case-footer reveal">
+      <div class="footer-text">
+        <h3>See the prototype live</h3>
+        <p>Built in AI Prototyping for PMs · Week 3 deliverable</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://www.magicpatterns.com/c/nzpwutywwzwegna5dhgecx/preview" target="_blank" class="btn-primary">
+          View Prototype
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="portfolio.html#work" class="btn-ghost">← All Projects</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  const sections = document.querySelectorAll('section[id]');
+  const sidebarLinks = document.querySelectorAll('.sidebar a');
+  const sidebarObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        sidebarLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + entry.target.id) link.classList.add('active');
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => sidebarObserver.observe(s));
+</script>
+</body>
+</html>

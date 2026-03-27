@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>finEQUITY — Case Study | Marc Louis-Charles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #111110;
+      --ink-soft: #55554e;
+      --ink-muted: #99998f;
+      --paper: #fafaf8;
+      --paper-warm: #f3f2ee;
+      --accent: #c8622a;
+      --accent-light: #fdf3ee;
+      --border: #e4e3de;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 16px; line-height: 1.6; font-weight: 300; overflow-x: hidden;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 4rem;
+      background: rgba(250,250,248,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--ink-soft); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    /* LAYOUT */
+    .page-layout { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; padding-top: 68px; }
+    .sidebar {
+      position: sticky; top: 68px; height: calc(100vh - 68px);
+      padding: 3rem 2rem; border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 0.25rem; overflow-y: auto;
+    }
+    .sidebar-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 1rem; margin-top: 0.5rem; }
+    .sidebar a {
+      font-size: 0.82rem; color: var(--ink-muted); text-decoration: none;
+      padding: 0.4rem 0.75rem; border-left: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s; display: block;
+    }
+    .sidebar a:hover, .sidebar a.active { color: var(--accent); border-left-color: var(--accent); }
+
+    /* HERO */
+    .case-hero {
+      background: #1a0a00; padding: 6rem 4rem; position: relative; overflow: hidden;
+      min-height: 500px; display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .case-hero::before {
+      content: ''; position: absolute; top: -100px; right: -100px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,98,42,0.25) 0%, transparent 70%);
+    }
+    .case-hero::after {
+      content: ''; position: absolute; bottom: -60px; left: 4rem;
+      width: 260px; height: 260px; border-radius: 50%;
+      border: 1px solid rgba(200,98,42,0.15);
+    }
+
+    .hero-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; position: relative; z-index: 1; animation: fadeUp 0.6s 0.1s ease both; flex-wrap: wrap; }
+    .hero-tag { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #fed7aa; background: rgba(200,98,42,0.2); border: 1px solid rgba(200,98,42,0.4); padding: 0.25rem 0.75rem; }
+    .hero-tag-plain { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+
+    .case-hero h1 { font-family: var(--serif); font-size: clamp(2.5rem, 4.5vw, 4.5rem); color: #fff; line-height: 1.05; margin-bottom: 1.25rem; position: relative; z-index: 1; animation: fadeUp 0.6s 0.2s ease both; }
+    .case-hero h1 em { font-style: italic; color: rgba(255,255,255,0.4); }
+    .case-hero p.hero-desc { font-size: 1rem; color: rgba(255,255,255,0.55); max-width: 60ch; line-height: 1.8; position: relative; z-index: 1; animation: fadeUp 0.6s 0.3s ease both; }
+
+    .hero-stats-row { display: flex; gap: 3rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); position: relative; z-index: 1; animation: fadeUp 0.6s 0.4s ease both; flex-wrap: wrap; }
+    .hero-stat-val { font-family: var(--serif); font-size: 1.8rem; color: #fff; line-height: 1; margin-bottom: 0.2rem; }
+    .hero-stat-label { font-size: 0.68rem; color: rgba(255,255,255,0.3); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* SECTIONS */
+    .case-section { padding: 5rem 4rem; border-bottom: 1px solid var(--border); }
+    .alt-bg { background: var(--paper-warm); }
+    .section-eyebrow { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2.5rem; }
+    .eyebrow-num { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+    .eyebrow-title { font-family: var(--serif); font-size: clamp(1.75rem, 2.5vw, 2.25rem); color: var(--ink); line-height: 1.1; }
+
+    .prose { font-size: 1rem; color: var(--ink-soft); line-height: 1.9; max-width: 68ch; }
+    .prose strong { color: var(--ink); font-weight: 500; }
+
+    /* OVERVIEW */
+    .overview-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 5rem; align-items: start; }
+    .overview-meta { display: flex; flex-direction: column; gap: 1px; }
+    .meta-item { padding: 1.25rem 1.5rem; background: var(--paper-warm); border-left: 2px solid transparent; transition: border-color 0.2s; }
+    .meta-item:hover { border-left-color: var(--accent); }
+    .meta-item h4 { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+    .meta-item p { font-size: 0.88rem; color: var(--ink-soft); }
+
+    /* IMPACT CARDS */
+    .impact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .impact-card { background: var(--paper); padding: 2rem; text-align: center; transition: background 0.2s; }
+    .impact-card:hover { background: var(--accent-light); }
+    .impact-val { font-family: var(--serif); font-size: 2.5rem; color: var(--ink); line-height: 1; margin-bottom: 0.35rem; }
+    .impact-label { font-size: 0.72rem; color: var(--ink-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* MISSION */
+    .mission-block { padding: 2.5rem; background: #1a0a00; border-left: 4px solid var(--accent); margin-top: 3rem; }
+    .mission-block p.label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .mission-block p.text { font-family: var(--serif); font-style: italic; font-size: 1.15rem; color: rgba(255,255,255,0.85); line-height: 1.75; }
+
+    /* PROBLEM */
+    .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .problem-card { background: var(--paper); padding: 2rem; }
+    .problem-card .num { font-family: var(--serif); font-size: 3rem; color: var(--border); line-height: 1; margin-bottom: 1rem; }
+    .problem-card h3 { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.75rem; }
+    .problem-card p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.7; }
+
+    /* ROLE */
+    .role-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .role-card { background: var(--paper); padding: 2rem; }
+    .role-card h3 { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .role-list { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+    .role-list li { font-size: 0.88rem; color: var(--ink-soft); display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.6; }
+    .role-list li::before { content: '→'; color: var(--accent); flex-shrink: 0; }
+
+    /* PROGRAMS */
+    .programs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .program-card { background: var(--paper); padding: 2rem; transition: background 0.2s; }
+    .program-card:hover { background: var(--accent-light); }
+    .program-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .program-card h3 { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.5rem; }
+    .program-card p { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.7; }
+
+    /* PRESS */
+    .press-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .press-card { background: var(--paper); padding: 2rem; }
+    .press-source { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .press-card p { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.7; font-style: italic; margin-bottom: 0.75rem; }
+    .press-card a { font-size: 0.72rem; color: var(--accent); text-decoration: none; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 0.3rem; border-bottom: 1px solid rgba(200,98,42,0.3); padding-bottom: 1px; }
+    .press-card a:hover { border-color: var(--accent); }
+
+    /* PM UPDATES */
+    .updates-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); margin-top: 3rem; }
+    .update-card { background: var(--paper); padding: 2rem; display: flex; gap: 1.25rem; align-items: flex-start; }
+    .update-num { font-family: var(--serif); font-size: 2.5rem; color: var(--accent); line-height: 1; flex-shrink: 0; }
+    .update-content h3 { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.5rem; }
+    .update-content p { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.7; }
+
+    /* METRICS DARK */
+    .metrics-dark { background: #1a0a00; }
+    .metrics-dark .eyebrow-num { color: rgba(200,98,42,0.8); }
+    .metrics-dark .eyebrow-title { color: white; }
+    .metrics-grid-dark { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(255,255,255,0.05); margin-top: 3rem; }
+    .metric-card-dark { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 2rem; }
+    .metric-val-dark { font-family: var(--serif); font-size: 2.5rem; color: #fed7aa; line-height: 1; margin-bottom: 0.35rem; }
+    .metric-label-dark { font-size: 0.72rem; color: rgba(255,255,255,0.35); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.5; }
+
+    /* PARTNERS */
+    .partners-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
+    .partner-tag { padding: 0.4rem 1rem; background: var(--paper-warm); border: 1px solid var(--border); font-size: 0.8rem; color: var(--ink-soft); transition: border-color 0.2s, color 0.2s; }
+    .partner-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* REFLECTION */
+    .reflection-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; }
+    .reflection-card { padding: 2rem; background: var(--paper-warm); border-left: 3px solid var(--border); }
+    .reflection-card.highlight { border-left-color: var(--accent); }
+    .reflection-card h4 { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .reflection-card p { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.8; }
+
+    /* FOOTER */
+    .case-footer { padding: 5rem 4rem; background: var(--paper-warm); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .footer-text h3 { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); margin-bottom: 0.5rem; }
+    .footer-text p { font-size: 0.88rem; color: var(--ink-soft); }
+    .footer-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--ink); color: var(--paper); text-decoration: none; padding: 0.85rem 1.75rem; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em; transition: background 0.2s, transform 0.2s; }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--ink-soft); text-decoration: none; font-size: 0.82rem; padding: 0.85rem 1.75rem; border: 1px solid var(--border); transition: color 0.2s, border-color 0.2s; }
+    .btn-ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .case-hero, .case-section, .case-footer { padding: 3rem 1.5rem; }
+      .overview-grid, .impact-grid, .problem-grid, .role-grid,
+      .programs-grid, .press-grid, .updates-grid, .metrics-grid-dark,
+      .reflection-grid { grid-template-columns: 1fr; }
+      .case-footer { flex-direction: column; gap: 2rem; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="portfolio.html" class="nav-logo">Marc</a>
+  <a href="portfolio.html#work" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 7H2M6 3L2 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    All Case Studies
+  </a>
+</nav>
+
+<div class="page-layout">
+  <aside class="sidebar">
+    <p class="sidebar-label">On this page</p>
+    <a href="#overview">Overview</a>
+    <a href="#mission">Mission</a>
+    <a href="#problem">The Problem</a>
+    <a href="#role">My PM Role</a>
+    <a href="#programs">Programs</a>
+    <a href="#impact">Impact</a>
+    <a href="#press">Recognition</a>
+    <a href="#partners">Partners</a>
+    <a href="#reflection">Reflection</a>
+  </aside>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="case-hero" id="top">
+      <div class="hero-meta">
+        <span class="hero-tag">Nonprofit Fintech · Social Impact</span>
+        <span class="hero-tag-plain">PM Co-lead · Jan 2025</span>
+      </div>
+      <h1>fin<em>EQUITY</em></h1>
+      <p class="hero-desc">A 501(c)(3) nonprofit fintech organization building financial freedom for justice-impacted individuals through credit coaching, no-fee banking, financial education, and a rewards-based program — serving 3,000+ lives changed.</p>
+      <div class="hero-stats-row">
+        <div>
+          <div class="hero-stat-val">3K+</div>
+          <div class="hero-stat-label">Lives changed</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">80%</div>
+          <div class="hero-stat-label">Report improved financial health</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">200+</div>
+          <div class="hero-stat-label">Organizational partnerships</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">10K+</div>
+          <div class="hero-stat-label">Credit score increases reported</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OVERVIEW -->
+    <section class="case-section" id="overview">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">01</span>
+        <h2 class="eyebrow-title">Overview</h2>
+      </div>
+      <div class="overview-grid">
+        <div class="reveal">
+          <p class="prose">finEQUITY is a Brooklyn-based 501(c)(3) nonprofit that provides financial tools, coaching, and educational resources specifically designed for individuals impacted by incarceration. Their mission is to eliminate the financial barriers that prevent justice-impacted people from rebuilding their lives — from credit building to no-fee banking to financial coaching.</p>
+          <p class="prose" style="margin-top:1.25rem;">I served as <strong>PM Co-lead</strong> on a cross-functional product team working alongside Ademola Adekemi. In this role, I coordinated team alignment through weekly ceremonies, translated high-level organizational strategy into actionable team objectives, streamlined delivery processes, and led demo presentations showcasing the team's contributions to finEQUITY's product goals.</p>
+        </div>
+        <div class="overview-meta reveal">
+          <div class="meta-item">
+            <h4>My Role</h4>
+            <p>PM Co-lead (with Ademola Adekemi)</p>
+          </div>
+          <div class="meta-item">
+            <h4>Organization</h4>
+            <p>finEQUITY.org — 501(c)(3) Nonprofit</p>
+          </div>
+          <div class="meta-item">
+            <h4>Timeline</h4>
+            <p>January 2025</p>
+          </div>
+          <div class="meta-item">
+            <h4>Location</h4>
+            <p>41 Schermerhorn Street, Brooklyn, NY 11201</p>
+          </div>
+          <div class="meta-item">
+            <h4>Team Size</h4>
+            <p>Cross-functional team with PM apprentices (Kaushal Chaudhary, Mosope Ogundipe)</p>
+          </div>
+          <div class="meta-item">
+            <h4>EIN</h4>
+            <p>84-4391836 · Verified 501(c)(3)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top-level impact row -->
+      <div class="impact-grid reveal">
+        <div class="impact-card">
+          <div class="impact-val">3K+</div>
+          <div class="impact-label">Lives changed</div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-val">80%</div>
+          <div class="impact-label">Improved financial health</div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-val">200+</div>
+          <div class="impact-label">Partner organizations</div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-val">10K+</div>
+          <div class="impact-label">Credit score increases</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION -->
+    <section class="case-section alt-bg" id="mission">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">02</span>
+        <h2 class="eyebrow-title">Mission & Vision</h2>
+      </div>
+      <div class="mission-block reveal">
+        <p class="label">Organization Mission</p>
+        <p class="text">"Build a brighter financial future. finEQUITY's resources are thoughtfully designed with your financial health in mind."</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);margin-top:2px;" class="reveal">
+        <div style="background:var(--paper);padding:2rem;">
+          <p style="font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;">Who They Serve</p>
+          <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.75;">Justice-impacted individuals — people who have been affected by incarceration and face systemic financial barriers including lack of access to credit, banking, and financial education. finEQUITY meets them where they are.</p>
+        </div>
+        <div style="background:var(--paper);padding:2rem;">
+          <p style="font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;">Why It Matters</p>
+          <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.75;">Financial exclusion is one of the most significant barriers to successful reentry. Without access to banking, credit, and financial tools, individuals face compounding disadvantage. finEQUITY addresses this gap head-on with practical tools and human coaching.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="case-section" id="problem">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">03</span>
+        <h2 class="eyebrow-title">The Problem Space</h2>
+      </div>
+      <p class="prose reveal">Justice-impacted individuals face a compounding set of financial barriers that make economic stability extremely difficult to achieve after incarceration. finEQUITY was built to address each of these barriers directly.</p>
+      <div class="problem-grid reveal">
+        <div class="problem-card">
+          <div class="num">01</div>
+          <h3>No Credit History</h3>
+          <p>Incarceration often means years of no credit activity. Without a credit score, individuals are shut out of housing, employment opportunities, and basic financial services that most people take for granted.</p>
+        </div>
+        <div class="problem-card">
+          <div class="num">02</div>
+          <h3>Banking Exclusion</h3>
+          <p>Traditional banks frequently deny accounts to people with criminal records. This forces reliance on check-cashing services and prepaid cards with high fees — a poverty tax on an already vulnerable population.</p>
+        </div>
+        <div class="problem-card">
+          <div class="num">03</div>
+          <h3>Financial Literacy Gap</h3>
+          <p>Financial education in correctional settings is minimal. Upon release, individuals must navigate complex financial systems — credit, banking, budgeting — with little preparation or support infrastructure.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MY PM ROLE -->
+    <section class="case-section alt-bg" id="role">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">04</span>
+        <h2 class="eyebrow-title">My PM Role</h2>
+      </div>
+      <p class="prose reveal">As PM Co-lead alongside Ademola Adekemi, I was responsible for cross-functional coordination, team alignment, and translating finEQUITY's organizational goals into a clear, executable product direction. I also mentored two PM Apprentices — Kaushal Chaudhary and Mosope Ogundipe — as part of the team structure.</p>
+
+      <!-- PM Updates from slide -->
+      <div class="updates-grid reveal">
+        <div class="update-card">
+          <div class="update-num">1</div>
+          <div class="update-content">
+            <h3>Team Alignment</h3>
+            <p>Improved teams alignment to set objectives through weekly teams coordination meetings and through open and transparent communication across a distributed team.</p>
+          </div>
+        </div>
+        <div class="update-card">
+          <div class="update-num">2</div>
+          <div class="update-content">
+            <h3>Streamlined Processes</h3>
+            <p>Streamlined delivery processes to increase turnaround of results — reducing bottlenecks between PM, design, and development workstreams.</p>
+          </div>
+        </div>
+        <div class="update-card">
+          <div class="update-num">3</div>
+          <div class="update-content">
+            <h3>Strategy to Action</h3>
+            <p>Synchronized team goals and translated high-level organizational strategy into actionable, measurable team objectives that the full team could rally behind.</p>
+          </div>
+        </div>
+        <div class="update-card">
+          <div class="update-num">4</div>
+          <div class="update-content">
+            <h3>Demo Leadership</h3>
+            <p>Coordinated demo presentations demonstrating cross-functional teams' contributions — communicating product progress clearly to finEQUITY's organizational stakeholders.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team structure -->
+      <div style="margin-top:2rem;padding:2rem;background:var(--paper);border:1px solid var(--border);" class="reveal">
+        <p style="font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1.25rem;">PM Team Structure</p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;">
+          <div style="text-align:center;">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;margin:0 auto 0.5rem;">MA</div>
+            <p style="font-size:0.82rem;font-weight:500;color:var(--ink);">Marc</p>
+            <p style="font-size:0.72rem;color:var(--accent);letter-spacing:0.04em;text-transform:uppercase;">Co-lead</p>
+          </div>
+          <div style="text-align:center;">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;margin:0 auto 0.5rem;">AA</div>
+            <p style="font-size:0.82rem;font-weight:500;color:var(--ink);">Ademola Adekemi</p>
+            <p style="font-size:0.72rem;color:var(--accent);letter-spacing:0.04em;text-transform:uppercase;">Co-lead</p>
+          </div>
+          <div style="text-align:center;">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--paper-warm);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-weight:700;font-size:0.9rem;margin:0 auto 0.5rem;">KC</div>
+            <p style="font-size:0.82rem;font-weight:500;color:var(--ink);">Kaushal Chaudhary</p>
+            <p style="font-size:0.72rem;color:var(--ink-muted);letter-spacing:0.04em;text-transform:uppercase;">Apprentice</p>
+          </div>
+          <div style="text-align:center;">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--paper-warm);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-weight:700;font-size:0.9rem;margin:0 auto 0.5rem;">MO</div>
+            <p style="font-size:0.82rem;font-weight:500;color:var(--ink);">Mosope Ogundipe</p>
+            <p style="font-size:0.72rem;color:var(--ink-muted);letter-spacing:0.04em;text-transform:uppercase;">Apprentice</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAMS -->
+    <section class="case-section" id="programs">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">05</span>
+        <h2 class="eyebrow-title">Programs & Products</h2>
+      </div>
+      <p class="prose reveal">finEQUITY delivers financial empowerment through three core program offerings, each designed to meet participants where they are — whether inside or after incarceration — and move them toward lasting financial freedom.</p>
+      <div class="programs-grid reveal">
+        <div class="program-card">
+          <div class="program-icon">💳</div>
+          <h3>Credit Building Strategies</h3>
+          <p>Personalized credit building plans, guidance on secured credit products, and ongoing coaching to help participants establish and grow their credit scores from zero.</p>
+        </div>
+        <div class="program-card">
+          <div class="program-icon">🏦</div>
+          <h3>No-Fee Bank Account Access</h3>
+          <p>finEQUITY connects participants with banking partners offering no-fee accounts — removing the banking exclusion barrier that traps many justice-impacted individuals in high-cost alternatives.</p>
+        </div>
+        <div class="program-card">
+          <div class="program-icon">📖</div>
+          <h3>Financial Education Curriculum</h3>
+          <p>A correspondence course delivered to New York State prisons via postal mail — covering financial strategies, budgeting, and planning — reaching participants even before release.</p>
+        </div>
+        <div class="program-card">
+          <div class="program-icon">🏆</div>
+          <h3>Prison 2 Prosperity Rewards Program</h3>
+          <p>A milestone rewards program for successful participants — incentivizing financial behavior change with tangible rewards for hitting savings, credit, and educational milestones.</p>
+        </div>
+        <div class="program-card">
+          <div class="program-icon">👥</div>
+          <h3>Financial Coaching</h3>
+          <p>One-on-one coaching from certified coaches who understand the unique challenges facing justice-impacted individuals — providing personalized guidance and accountability.</p>
+        </div>
+        <div class="program-card">
+          <div class="program-icon">🎓</div>
+          <h3>Virtual Credit Workshops</h3>
+          <p>Group virtual workshops on credit, banking, and financial planning — delivered in partnership with sponsor organizations and accessible to participants at all financial literacy levels.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMPACT -->
+    <section class="case-section metrics-dark" id="impact">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">06</span>
+        <h2 class="eyebrow-title">Organizational Impact</h2>
+      </div>
+      <p style="font-size:1rem;color:rgba(255,255,255,0.5);line-height:1.8;max-width:65ch;" class="reveal">finEQUITY has demonstrated measurable, real-world impact on the financial lives of justice-impacted individuals — with outcomes validated through participant surveys and program data.</p>
+      <div class="metrics-grid-dark reveal">
+        <div class="metric-card-dark">
+          <div class="metric-val-dark">3,000+</div>
+          <div class="metric-label-dark">Individual lives changed through the program</div>
+        </div>
+        <div class="metric-card-dark">
+          <div class="metric-val-dark">80%</div>
+          <div class="metric-label-dark">Of participants report improved financial health after the program</div>
+        </div>
+        <div class="metric-card-dark">
+          <div class="metric-val-dark">200+</div>
+          <div class="metric-label-dark">Organizational partnerships across the US</div>
+        </div>
+        <div class="metric-card-dark">
+          <div class="metric-val-dark">10,000+</div>
+          <div class="metric-label-dark">Participants reported a meaningful credit score increase</div>
+        </div>
+        <div class="metric-card-dark">
+          <div class="metric-val-dark">$225K</div>
+          <div class="metric-label-dark">National fellowship awarded to finEQUITY founder</div>
+        </div>
+        <div class="metric-card-dark">
+          <div class="metric-val-dark">$100K</div>
+          <div class="metric-label-dark">Reconstruct Challenge grant (Access Ventures)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRESS & RECOGNITION -->
+    <section class="case-section alt-bg" id="press">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">07</span>
+        <h2 class="eyebrow-title">Recognition & Press</h2>
+      </div>
+      <p class="prose reveal">finEQUITY has earned recognition from some of the most respected organizations in fintech, social impact, and civic innovation — validating both the mission and the model.</p>
+      <div class="press-grid reveal">
+        <div class="press-card">
+          <p class="press-source">Render / KYINNO</p>
+          <p>One of five winners of the $100K Reconstruct Challenge — receiving a grant from Access Ventures to implement their reentry financial solutions.</p>
+          <a href="https://www.bizjournals.com/louisville/inno/stories/fundings/2022/08/26/reconstruct-challenge-2022.html" target="_blank">Read coverage ↗</a>
+        </div>
+        <div class="press-card">
+          <p class="press-source">South Park Commons × Agency Fund</p>
+          <p>Selected for the inaugural Social Impact Fellowship cohort — one of the first organizations recognized by this prestigious fellowship program.</p>
+          <a href="https://medium.com/south-park-commons/announcing-the-inaugural-social-impact-fellowship-cohort-2c149e4dfa66" target="_blank">Read announcement ↗</a>
+        </div>
+        <div class="press-card">
+          <p class="press-source">Financial Health Network</p>
+          <p>Selected by the Financial Health Network and Financial Solutions Lab to join their 2020 Exchange Grant for fintech innovation in financial inclusion.</p>
+          <a href="https://finhealthnetwork.org/programs/financial-solutions-lab/" target="_blank">View program ↗</a>
+        </div>
+        <div class="press-card">
+          <p class="press-source">NYC OTI</p>
+          <p>Named one of four winners of New York City's Financial Inclusion Challenge — recognizing the most impactful fintech solutions for underserved communities.</p>
+          <a href="https://www.nyc.gov/content/oti/pages/" target="_blank">View challenge ↗</a>
+        </div>
+        <div class="press-card">
+          <p class="press-source">Sparkplug Foundation</p>
+          <p>Awarded a Sparkplug Foundation grant in recognition of finEQUITY's correspondence course delivered to New York State prisons via postal mail.</p>
+          <a href="https://www.sparkplugfoundation.org/past-grantees/" target="_blank">View grantees ↗</a>
+        </div>
+        <div class="press-card">
+          <p class="press-source">Fund for New Leadership</p>
+          <p>finEQUITY founder selected for a $225K national multi-year fellowship — partnering early-stage organizations with resources to scale meaningful impact.</p>
+          <a href="https://fundfornewleadership.org/fellows/briane-cornish/" target="_blank">View fellow ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARTNERS -->
+    <section class="case-section" id="partners">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">08</span>
+        <h2 class="eyebrow-title">Supported By</h2>
+      </div>
+      <p class="prose reveal">finEQUITY has built partnerships with some of the largest and most respected corporations and organizations in America — providing sponsorship, co-programming, and expanded reach for their participant network.</p>
+      <div class="partners-row reveal">
+        <span class="partner-tag">Access Ventures</span>
+        <span class="partner-tag">South Park Commons</span>
+        <span class="partner-tag">Agency Fund</span>
+        <span class="partner-tag">Financial Health Network</span>
+        <span class="partner-tag">Financial Solutions Lab</span>
+        <span class="partner-tag">NYC Office of Technology & Innovation</span>
+        <span class="partner-tag">Sparkplug Foundation</span>
+        <span class="partner-tag">Fund for New Leadership</span>
+      </div>
+      <!-- Donate CTA -->
+      <div style="margin-top:3rem;padding:2rem;background:var(--paper-warm);border:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;" class="reveal">
+        <div>
+          <p style="font-size:0.82rem;font-weight:500;color:var(--ink);margin-bottom:0.25rem;">Support finEQUITY</p>
+          <p style="font-size:0.85rem;color:var(--ink-soft);">Your gift directly serves justice-impacted individuals on their path to financial freedom.</p>
+        </div>
+        <a href="https://givebutter.com/4YrfN9" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;background:var(--accent);color:white;text-decoration:none;padding:0.75rem 1.5rem;font-size:0.82rem;font-weight:500;letter-spacing:0.04em;flex-shrink:0;">
+          Donate ↗
+        </a>
+      </div>
+    </section>
+
+    <!-- REFLECTION -->
+    <section class="case-section alt-bg" id="reflection">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">09</span>
+        <h2 class="eyebrow-title">Reflection</h2>
+      </div>
+      <p class="prose reveal">Working as PM Co-lead on finEQUITY was one of the most meaningful product experiences I've had — not just for the skill-building, but for the mission itself. Here's what I took away.</p>
+      <div class="reflection-grid reveal">
+        <div class="reflection-card highlight">
+          <h4>Leading Without Hierarchy</h4>
+          <p>As Co-lead, I had to earn alignment through clarity and communication, not authority. Building consensus on objectives with a distributed team — including apprentices who were newer to PM — sharpened my facilitation and coaching instincts significantly.</p>
+        </div>
+        <div class="reflection-card highlight">
+          <h4>Mission-Driven Product Work</h4>
+          <p>Building product for a social impact organization changes how you prioritize. Every feature decision had a real human consequence — not just a metric. That forces a kind of PM rigor that purely commercial products don't demand in the same way.</p>
+        </div>
+        <div class="reflection-card">
+          <h4>Translating Strategy to Action</h4>
+          <p>One of my core contributions was translating finEQUITY's high-level organizational goals into concrete, sprint-ready team objectives. That translation layer — from vision to backlog — is where a lot of PM value lives, and this experience sharpened that skill.</p>
+        </div>
+        <div class="reflection-card">
+          <h4>Cross-Functional Communication</h4>
+          <p>Coordinating demo presentations to organizational stakeholders required distilling complex cross-team work into a clear, compelling narrative. Learning to communicate progress — not just status — to a mission-focused leadership team was a valuable and distinct communication challenge.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="case-footer reveal">
+      <div class="footer-text">
+        <h3>See finEQUITY live</h3>
+        <p>A 501(c)(3) nonprofit serving justice-impacted individuals since 2020</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://effective-lots-047133.framer.app/" target="_blank" class="btn-primary">
+          View Live Site
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="https://www.finequity.org/contact-us" target="_blank" class="btn-ghost">Join Program</a>
+        <a href="portfolio.html#work" class="btn-ghost">← All Projects</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  const sections = document.querySelectorAll('section[id]');
+  const sidebarLinks = document.querySelectorAll('.sidebar a');
+  const sidebarObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        sidebarLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + entry.target.id) link.classList.add('active');
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => sidebarObserver.observe(s));
+</script>
+</body>
+</html>
