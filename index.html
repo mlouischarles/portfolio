@@ -269,7 +269,7 @@
       gap: 2px;
     }
     .featured-visual {
-      background: var(--ink);
+      background: var(--accent-light);
       padding: 4rem;
       display: flex;
       flex-direction: column;
@@ -284,7 +284,7 @@
       top: -80px; right: -80px;
       width: 320px; height: 320px;
       border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.05);
+      border: 1px solid rgba(200,98,42,0.15);
     }
     .featured-visual::after {
       content: '';
@@ -328,9 +328,10 @@
     }
     .chip {
       padding: 0.3rem 0.75rem;
-      border: 1px solid rgba(255,255,255,0.12);
+      background: var(--paper);
+      border: 1px solid var(--border);
       font-size: 0.68rem;
-      color: rgba(255,255,255,0.45);
+      color: var(--ink-soft);
       letter-spacing: 0.04em;
     }
     .featured-content {
@@ -782,24 +783,24 @@
 
   <!-- FreedomTrack card — featured wide row -->
   <div style="margin-top:2px;background:var(--border);gap:2px;display:grid;grid-template-columns:1fr 1.4fr;">
-    <!-- Dark visual panel -->
-    <div style="background:#111110;padding:3.5rem;display:flex;flex-direction:column;justify-content:space-between;min-height:460px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;border:1px solid rgba(255,255,255,0.04);"></div>
-      <div style="position:absolute;bottom:-60px;left:3rem;width:160px;height:160px;border-radius:50%;border:1px solid rgba(200,98,42,0.2);"></div>
+    <!-- Light visual panel -->
+    <div style="background:#edf2ed;padding:3.5rem;display:flex;flex-direction:column;justify-content:space-between;min-height:460px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;border:1px solid rgba(34,197,94,0.15);"></div>
+      <div style="position:absolute;bottom:-60px;left:3rem;width:160px;height:160px;border-radius:50%;border:1px solid rgba(34,197,94,0.2);"></div>
       <div style="position:relative;z-index:1;">
-        <div style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);">
-          <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;"></span>
+        <div style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#15803d;">
+          <span style="width:6px;height:6px;border-radius:50%;background:#15803d;display:inline-block;"></span>
           AI-Powered App · 2025
         </div>
       </div>
       <div style="font-size:5rem;line-height:1;position:relative;z-index:1;">💸</div>
       <div style="position:relative;z-index:1;">
         <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem;">
-          <span style="padding:0.3rem 0.75rem;border:1px solid rgba(255,255,255,0.1);font-size:0.68rem;color:rgba(255,255,255,0.4);letter-spacing:0.04em;">React + TypeScript</span>
-          <span style="padding:0.3rem 0.75rem;border:1px solid rgba(255,255,255,0.1);font-size:0.68rem;color:rgba(255,255,255,0.4);letter-spacing:0.04em;">Google Gemini AI</span>
-          <span style="padding:0.3rem 0.75rem;border:1px solid rgba(255,255,255,0.1);font-size:0.68rem;color:rgba(255,255,255,0.4);letter-spacing:0.04em;">Recharts</span>
-          <span style="padding:0.3rem 0.75rem;border:1px solid rgba(255,255,255,0.1);font-size:0.68rem;color:rgba(255,255,255,0.4);letter-spacing:0.04em;">Tailwind CSS</span>
-          <span style="padding:0.3rem 0.75rem;border:1px solid rgba(255,255,255,0.1);font-size:0.68rem;color:rgba(255,255,255,0.4);letter-spacing:0.04em;">Personal Finance</span>
+          <span style="padding:0.3rem 0.75rem;background:var(--paper);border:1px solid var(--border);font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.04em;">React + TypeScript</span>
+          <span style="padding:0.3rem 0.75rem;background:var(--paper);border:1px solid var(--border);font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.04em;">Google Gemini AI</span>
+          <span style="padding:0.3rem 0.75rem;background:var(--paper);border:1px solid var(--border);font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.04em;">Recharts</span>
+          <span style="padding:0.3rem 0.75rem;background:var(--paper);border:1px solid var(--border);font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.04em;">Tailwind CSS</span>
+          <span style="padding:0.3rem 0.75rem;background:var(--paper);border:1px solid var(--border);font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.04em;">Personal Finance</span>
         </div>
       </div>
     </div>
@@ -924,47 +925,47 @@
         </a>
       </div>
     </div>
-    <!-- Dark visual panel -->
-    <div style="background:#1a1f35;padding:3.5rem;display:flex;flex-direction:column;justify-content:space-between;min-height:460px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:-80px;left:-80px;width:300px;height:300px;border-radius:50%;border:1px solid rgba(255,255,255,0.04);"></div>
-      <div style="position:absolute;bottom:-40px;right:3rem;width:140px;height:140px;border-radius:50%;border:1px solid rgba(59,130,246,0.2);"></div>
+    <!-- Light visual panel -->
+    <div style="background:#edf1f5;padding:3.5rem;display:flex;flex-direction:column;justify-content:space-between;min-height:460px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-80px;left:-80px;width:300px;height:300px;border-radius:50%;border:1px solid rgba(59,130,246,0.15);"></div>
+      <div style="position:absolute;bottom:-40px;right:3rem;width:140px;height:140px;border-radius:50%;border:1px solid rgba(59,130,246,0.25);"></div>
       <div style="position:relative;z-index:1;">
-        <div style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#60a5fa;">
-          <span style="width:6px;height:6px;border-radius:50%;background:#60a5fa;display:inline-block;"></span>
+        <div style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#1d4ed8;">
+          <span style="width:6px;height:6px;border-radius:50%;background:#1d4ed8;display:inline-block;"></span>
           AI Prototype · Austin, TX
         </div>
       </div>
       <div style="font-size:5rem;line-height:1;position:relative;z-index:1;">🏠</div>
       <div style="position:relative;z-index:1;">
-        <p style="font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:0.75rem;">Sample Output</p>
+        <p style="font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.75rem;">Sample Output</p>
         <div style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.5rem;">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0.85rem;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.2);border-radius:0.5rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0.85rem;background:var(--paper);border:1px solid #86efac;border-radius:0.5rem;">
             <div>
-              <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#4ade80;display:block;">Conservative</span>
-              <span style="font-size:0.6rem;color:rgba(255,255,255,0.3);">30% of take-home · Low risk</span>
+              <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#15803d;display:block;">Conservative</span>
+              <span style="font-size:0.6rem;color:var(--ink-muted);">30% of take-home · Low risk</span>
             </div>
-            <span style="font-size:0.9rem;font-weight:900;color:#fff;">$1,200/mo</span>
+            <span style="font-size:0.9rem;font-weight:900;color:var(--ink);">$1,200/mo</span>
           </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0.85rem;background:rgba(251,146,60,0.15);border:1px solid rgba(251,146,60,0.2);border-radius:0.5rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0.85rem;background:var(--paper);border:1px solid #fdba74;border-radius:0.5rem;">
             <div>
-              <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#fb923c;display:block;">Moderate</span>
-              <span style="font-size:0.6rem;color:rgba(255,255,255,0.3);">35% of take-home · Medium risk</span>
+              <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#c2410c;display:block;">Moderate</span>
+              <span style="font-size:0.6rem;color:var(--ink-muted);">35% of take-home · Medium risk</span>
             </div>
-            <span style="font-size:0.9rem;font-weight:900;color:#fff;">$1,500/mo</span>
+            <span style="font-size:0.9rem;font-weight:900;color:var(--ink);">$1,500/mo</span>
           </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0.85rem;background:rgba(248,113,113,0.15);border:1px solid rgba(248,113,113,0.2);border-radius:0.5rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0.85rem;background:var(--paper);border:1px solid #fca5a5;border-radius:0.5rem;">
             <div>
-              <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#f87171;display:block;">Stretch</span>
-              <span style="font-size:0.6rem;color:rgba(255,255,255,0.3);">40% of take-home · High risk</span>
+              <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#b91c1c;display:block;">Stretch</span>
+              <span style="font-size:0.6rem;color:var(--ink-muted);">40% of take-home · High risk</span>
             </div>
-            <span style="font-size:0.9rem;font-weight:900;color:#fff;">$1,800/mo</span>
+            <span style="font-size:0.9rem;font-weight:900;color:var(--ink);">$1,800/mo</span>
           </div>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-          <span style="padding:0.3rem 0.75rem;border:1px solid rgba(255,255,255,0.1);font-size:0.68rem;color:rgba(255,255,255,0.4);letter-spacing:0.04em;">React + TypeScript</span>
-          <span style="padding:0.3rem 0.75rem;border:1px solid rgba(255,255,255,0.1);font-size:0.68rem;color:rgba(255,255,255,0.4);letter-spacing:0.04em;">Google Gemini</span>
-          <span style="padding:0.3rem 0.75rem;border:1px solid rgba(255,255,255,0.1);font-size:0.68rem;color:rgba(255,255,255,0.4);letter-spacing:0.04em;">Vite</span>
-          <span style="padding:0.3rem 0.75rem;border:1px solid rgba(255,255,255,0.1);font-size:0.68rem;color:rgba(255,255,255,0.4);letter-spacing:0.04em;">FigJam User Flow</span>
+          <span style="padding:0.3rem 0.75rem;background:var(--paper);border:1px solid var(--border);font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.04em;">React + TypeScript</span>
+          <span style="padding:0.3rem 0.75rem;background:var(--paper);border:1px solid var(--border);font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.04em;">Google Gemini</span>
+          <span style="padding:0.3rem 0.75rem;background:var(--paper);border:1px solid var(--border);font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.04em;">Vite</span>
+          <span style="padding:0.3rem 0.75rem;background:var(--paper);border:1px solid var(--border);font-size:0.68rem;color:var(--ink-soft);letter-spacing:0.04em;">FigJam User Flow</span>
         </div>
       </div>
     </div>
