@@ -272,44 +272,10 @@
     }
     .btn-ghost:hover { color: var(--accent); border-color: var(--accent); }
 
-    .mobile-toc {
-      display: none;
-    }
-
     @media (max-width: 900px) {
       nav { padding: 1rem 1.5rem; }
       .page-layout { grid-template-columns: 1fr; }
       .sidebar { display: none; }
-
-      .mobile-toc {
-        display: flex;
-        overflow-x: auto;
-        gap: 1rem;
-        padding: 1rem 1.5rem;
-        background: var(--paper);
-        border-bottom: 1px solid var(--border);
-        position: sticky;
-        top: 68px;
-        z-index: 90;
-        white-space: nowrap;
-        scrollbar-width: none; /* Firefox */
-      }
-      .mobile-toc::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
-      .mobile-toc a {
-        font-size: 0.75rem;
-        font-weight: 500;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: var(--ink-soft);
-        text-decoration: none;
-        padding-bottom: 0.25rem;
-        border-bottom: 2px solid transparent;
-      }
-      .mobile-toc a.active {
-        color: var(--accent);
-        border-bottom-color: var(--accent);
-      }
-
       .case-hero, .case-section, .case-footer { padding: 3rem 1.5rem; }
       .overview-grid, .problem-grid, .persona-grid, .opportunity-grid,
       .scope-grid, .validation-grid, .reflection-grid,
@@ -328,14 +294,6 @@
     All Case Studies
   </a>
 </nav>
-
-<div class="mobile-toc">
-  <a href="#overview">Overview</a>
-  <a href="#problem">Problem</a>
-  <a href="#features">Features</a>
-  <a href="#validation">Validation</a>
-  <a href="#reflection">Reflection</a>
-</div>
 
 <div class="page-layout">
   <aside class="sidebar">
@@ -362,12 +320,6 @@
       </div>
       <h1>AI Governance <em>Copilot</em></h1>
       <p class="hero-desc">A purpose-built SaaS platform that automates model risk documentation and governance workflows for regulated financial institutions — reducing documentation time from weeks to hours.</p>
-      <div class="hero-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem; position: relative; z-index: 10;">
-        <a href="https://www.magicpatterns.com/c/nzpwutywwzwegna5dhgecx/preview" target="_blank" class="btn-primary" style="background: white; color: var(--ink); text-decoration: none; padding: 0.75rem 1.5rem; font-size: 0.85rem; font-weight: 500; border-radius: 4px; display: inline-flex; align-items: center; gap: 0.5rem;">
-          View Live Prototype
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
       <div class="hero-stats-row">
         <div>
           <div class="hero-stat-val">4</div>
@@ -856,7 +808,7 @@
   reveals.forEach(el => observer.observe(el));
 
   const sections = document.querySelectorAll('section[id]');
-  const sidebarLinks = document.querySelectorAll('.sidebar a, .mobile-toc a');
+  const sidebarLinks = document.querySelectorAll('.sidebar a');
   const sidebarObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
