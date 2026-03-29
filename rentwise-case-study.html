@@ -173,7 +173,7 @@
     .outscope .scope-item::before { background: var(--border); }
 
     /* ROADMAP */
-    .roadmap-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .roadmap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
     .roadmap-col { background: var(--paper); padding: 2rem; }
     .roadmap-period { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
     .roadmap-col h3 { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); margin-bottom: 1rem; line-height: 1.2; }
@@ -226,6 +226,12 @@
     .quote-block p { font-family: var(--serif); font-style: italic; font-size: 1rem; color: var(--ink); line-height: 1.65; margin-bottom: 0.35rem; }
     .quote-block cite { font-size: 0.72rem; color: var(--ink-muted); letter-spacing: 0.06em; text-transform: uppercase; font-style: normal; }
 
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
     @media (max-width: 900px) {
       nav { padding: 1rem 1.5rem; }
       .page-layout { grid-template-columns: 1fr; }
@@ -252,15 +258,16 @@
   <aside class="sidebar">
     <p class="sidebar-label">On this page</p>
     <a href="#overview">Overview</a>
+    <a href="#decisions">Key Decisions</a>
     <a href="#problem">The Problem</a>
     <a href="#hypothesis">Hypothesis</a>
     <a href="#personas">Personas</a>
     <a href="#userflow">User Flow</a>
-    <a href="#features">Features</a>
+    <a href="#features">MVP Features</a>
     <a href="#scope">Scope</a>
     <a href="#tech">Tech Stack</a>
-    <a href="#metrics">Success Metrics</a>
-    <a href="#roadmap">Roadmap</a>
+    <a href="#metrics">Validation Metrics</a>
+    <a href="#roadmap">Next Steps</a>
     <a href="#gtm">Go-to-Market</a>
     <a href="#reflection">Reflection</a>
   </aside>
@@ -271,49 +278,52 @@
     <section class="case-hero" id="top">
       <div class="hero-meta">
         <span class="hero-tag">AI Prototype · Fintech</span>
-        <a href="https://inthelabpm.com" target="_blank" class="hero-tag-itl">In the Lab PM Bootcamp</a>
+        <a href="https://inthelabpm.com" target="_blank" rel="noopener noreferrer" class="hero-tag-itl">In the Lab PM Bootcamp</a>
         <span class="hero-tag-plain">Austin, TX · 2024</span>
       </div>
       <h1>Rentwise <em>Austin</em></h1>
-      <p class="hero-desc">An AI-powered rent affordability assistant empowering first-time renters in Austin, TX to make informed, sustainable housing decisions — without the stress of hidden fees or budget guesswork.</p>
+      <p class="hero-desc">I designed and prototyped an AI-powered rent affordability tool that helps first-time renters understand what they can actually afford using real financial inputs instead of generic rules.</p>
       <div class="hero-stats-row">
         <div>
-          <div class="hero-stat-val">3</div>
-          <div class="hero-stat-label">User personas defined</div>
+          <div class="hero-stat-val">MVP</div>
+          <div class="hero-stat-label">Austin-only affordability calculator</div>
         </div>
         <div>
-          <div class="hero-stat-val">4</div>
-          <div class="hero-stat-label">Epics scoped in PRD</div>
+          <div class="hero-stat-val">Decision</div>
+          <div class="hero-stat-label">Free calculator, no marketplace</div>
         </div>
         <div>
-          <div class="hero-stat-val">3-yr</div>
-          <div class="hero-stat-label">Product roadmap</div>
+          <div class="hero-stat-val">Prototype</div>
+          <div class="hero-stat-label">AI-powered rent tier recommendations</div>
         </div>
         <div>
-          <div class="hero-stat-val">AI</div>
-          <div class="hero-stat-label">Core technology</div>
+          <div class="hero-stat-val">Focus</div>
+          <div class="hero-stat-label">Financial clarity before housing search</div>
         </div>
       </div>
     </section>
 
     <!-- TL;DR -->
     <section class="case-section" style="padding-top:2rem;padding-bottom:2rem;background:var(--paper-warm);border-bottom:1px solid var(--border);">
+      <div style="margin-bottom:1rem;">
+        <h3 style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);font-weight:500;">PM Snapshot</h3>
+      </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:2rem;">
         <div>
           <h4 style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.5rem;">Problem</h4>
-          <p style="font-size:0.88rem;color:var(--ink);line-height:1.5;">First-time renters lack clear visibility into what they can realistically afford, leading to financial stress.</p>
+          <p style="font-size:0.88rem;color:var(--ink);line-height:1.5;">First-time renters do not know what they can realistically afford, which leads to overspending and financial stress.</p>
         </div>
         <div>
-          <h4 style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.5rem;">My Role</h4>
-          <p style="font-size:0.88rem;color:var(--ink);line-height:1.5;">Product Manager for a competitive 13-week bootcamp cohort.</p>
+          <h4 style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.5rem;">What I Did</h4>
+          <p style="font-size:0.88rem;color:var(--ink);line-height:1.5;">Scoped and designed an AI-powered affordability calculator focused on clarity, not listings.</p>
         </div>
         <div>
-          <h4 style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.5rem;">Stage</h4>
-          <p style="font-size:0.88rem;color:var(--ink);line-height:1.5;">Concept & Working Prototype.</p>
+          <h4 style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.5rem;">Key Decision</h4>
+          <p style="font-size:0.88rem;color:var(--ink);line-height:1.5;">Kept the MVP narrowly focused with no marketplace, payments, or financial integrations.</p>
         </div>
         <div>
-          <h4 style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.5rem;">Key Outcome</h4>
-          <p style="font-size:0.88rem;color:var(--ink);line-height:1.5;">Delivered a full PM package including PRDs, user stories, strategy, and a roadmap.</p>
+          <h4 style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.5rem;">Result</h4>
+          <p style="font-size:0.88rem;color:var(--ink);line-height:1.5;">Delivered a working prototype, product strategy, and a clear set of next validation steps.</p>
         </div>
       </div>
     </section>
@@ -326,8 +336,8 @@
       </div>
       <div class="overview-grid">
         <div class="reveal">
-          <p class="prose">Rentwise Austin is an AI-powered rent affordability calculator designed specifically for first-time renters navigating the Austin, TX rental market. Users enter their monthly income, debt payments, fixed expenses, and savings goals — and Gemini AI returns Conservative, Moderate, and Stretch rent budget recommendations with Austin-specific market context, a full budget snapshot, action items, and follow-up question prompts.</p>
-          <p class="prose" style="margin-top:1.25rem;">This project was built as part of the <strong>In the Lab PM Bootcamp</strong> — a competitive 13-week program for underrepresented talent in product management, culminating in a final presentation to a panel of industry product leaders. Deliverables included a one-pager, full PRD, FigJam user flow, 3-year product roadmap, go-to-market strategy, and a working prototype.</p>
+          <p class="prose">Rentwise Austin is a product concept and working prototype designed to help first-time renters determine what they can realistically afford before they begin searching for housing. Instead of relying on generic affordability rules, users enter income, debt, fixed expenses, and savings goals to receive personalized rent guidance with clear tradeoffs.</p>
+          <p class="prose" style="margin-top:1.25rem;">I built this project during the <strong>In the Lab PM Bootcamp</strong>, where I defined the problem, scoped the MVP, created the product strategy, and developed a working prototype. The output included a one-pager, PRD, user flow, roadmap, go-to-market thinking, and the prototype itself.</p>
         </div>
         <div class="overview-meta reveal">
           <div class="meta-item">
@@ -358,13 +368,49 @@
       </div>
     </section>
 
-    <!-- PROBLEM -->
-    <section class="case-section alt-bg" id="problem">
+    <!-- DECISIONS -->
+    <section class="case-section alt-bg" id="decisions">
       <div class="section-eyebrow reveal">
         <span class="eyebrow-num">02</span>
+        <h2 class="eyebrow-title">Key Product Decisions</h2>
+      </div>
+      <p class="prose reveal">These were the most important product decisions I made to keep the concept focused, testable, and relevant to the user problem.</p>
+      <div class="features-grid reveal">
+        <div class="feature-card">
+          <div class="feature-icon">📍</div>
+          <h3>Austin-Only MVP</h3>
+          <p>I intentionally limited the first version to Austin so the experience could be specific and relevant instead of becoming a generic national affordability tool.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧮</div>
+          <h3>Calculator First, Not Marketplace</h3>
+          <p>I prioritized affordability clarity over listings or transactions to validate whether users could understand what they can afford before adding more complexity.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚖️</div>
+          <h3>Three-Tier Output</h3>
+          <p>Instead of returning a single number, I used Conservative, Moderate, and Stretch tiers to reflect different risk tolerances and give users clearer decision framing.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔓</div>
+          <h3>Free Core Experience</h3>
+          <p>I kept the calculator free to reduce friction and make the core value accessible, while treating premium features as future extensions rather than the main entry point.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏦</div>
+          <h3>No Financial Integrations in V1</h3>
+          <p>I avoided bank connections, credit data, and complex integrations so the MVP stayed lightweight and focused on user input plus decision support.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="case-section" id="problem">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">03</span>
         <h2 class="eyebrow-title">The Problem</h2>
       </div>
-      <p class="prose reveal"><strong>Problem Statement:</strong> First-time renters need a way to understand what they can realistically afford because searching for housing without financial clarity leads to rent burden, poor decisions, and long-term financial stress. Users need a way to access their financial information — income, expenses, and savings goals — in one place and receive clear, personalized guidance.</p>
+      <p class="prose reveal"><strong>Problem Statement:</strong> First-time renters lack a clear way to determine what they can realistically afford. Generic rules like “30% of income” ignore debt, savings goals, and local cost variation, which can lead to poor housing decisions and financial stress.</p>
       <div class="problem-grid reveal">
         <div class="problem-card">
           <div class="num">01</div>
@@ -390,14 +436,14 @@
     </section>
 
     <!-- HYPOTHESIS -->
-    <section class="case-section" id="hypothesis">
+    <section class="case-section alt-bg" id="hypothesis">
       <div class="section-eyebrow reveal">
-        <span class="eyebrow-num">03</span>
+        <span class="eyebrow-num">04</span>
         <h2 class="eyebrow-title">Hypothesis</h2>
       </div>
       <div class="hypothesis-block reveal">
         <p class="label">Product Hypothesis</p>
-        <p class="text">"Providing first-time renters with an accessible and user-friendly online tool that calculates their affordable rent based on income, expenses, and location-specific data will lead to increased financial literacy and better-informed renting decisions. We hypothesize that such a tool will empower first-time renters to make more informed choices, reducing the risk of rent burden and financial stress."</p>
+        <p class="text">"If first-time renters are given a simple, personalized affordability range based on their real financial inputs, they will make more informed and less risky rental decisions."</p>
       </div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);margin-top:3rem;" class="reveal">
         <div style="background:var(--paper);padding:2rem;">
@@ -420,9 +466,9 @@
     </section>
 
     <!-- PERSONAS -->
-    <section class="case-section alt-bg" id="personas">
+    <section class="case-section" id="personas">
       <div class="section-eyebrow reveal">
-        <span class="eyebrow-num">04</span>
+        <span class="eyebrow-num">05</span>
         <h2 class="eyebrow-title">User Personas</h2>
       </div>
       <p class="prose reveal">Three distinct first-time renter archetypes were defined to guide feature prioritization and UX decisions. Each has different income situations, timelines, and levels of financial literacy.</p>
@@ -465,12 +511,13 @@
     </section>
 
     <!-- USER FLOW -->
-    <section class="case-section" id="userflow">
+    <section class="case-section alt-bg" id="userflow">
       <div class="section-eyebrow reveal">
-        <span class="eyebrow-num">05</span>
+        <span class="eyebrow-num">06</span>
         <h2 class="eyebrow-title">User Flow</h2>
       </div>
       <p class="prose reveal">The FigJam user flow maps the full journey from login through the affordability calculator to results. The flow accounts for authentication edge cases, input validation, and post-result user paths including retrying the calculator and browsing local listings.</p>
+      <p class="prose reveal" style="margin-top:1.25rem;">Why this matters: the goal was not just to calculate a number, but to give users immediate clarity on what they can afford and what to do next without needing onboarding.</p>
       <div class="flow-grid reveal">
         <div class="flow-step">
           <div class="flow-num">1</div>
@@ -519,12 +566,12 @@
     </section>
 
     <!-- FEATURES -->
-    <section class="case-section alt-bg" id="features">
+    <section class="case-section" id="features">
       <div class="section-eyebrow reveal">
-        <span class="eyebrow-num">06</span>
-        <h2 class="eyebrow-title">Core Features</h2>
+        <span class="eyebrow-num">07</span>
+        <h2 class="eyebrow-title">MVP Features</h2>
       </div>
-      <p class="prose reveal">The PRD defines four core features — scoped for the MVP with a clear in/out-of-scope boundary to keep the first version focused and shippable.</p>
+      <p class="prose reveal">The MVP focuses on one core job: helping users understand what they can afford before they start searching for housing.</p>
       <div class="features-grid reveal">
         <div class="feature-card">
           <div class="feature-icon">🧮</div>
@@ -550,9 +597,9 @@
     </section>
 
     <!-- SCOPE -->
-    <section class="case-section" id="scope">
+    <section class="case-section alt-bg" id="scope">
       <div class="section-eyebrow reveal">
-        <span class="eyebrow-num">07</span>
+        <span class="eyebrow-num">08</span>
         <h2 class="eyebrow-title">Product Scope</h2>
       </div>
       <p class="prose reveal">The PRD defines a clear in-scope / out-of-scope boundary to keep the MVP tightly focused on core value — the affordability calculator — without distraction from payment features or third-party integrations.</p>
@@ -580,9 +627,9 @@
     </section>
 
     <!-- TECH STACK -->
-    <section class="case-section alt-bg" id="tech">
+    <section class="case-section" id="tech">
       <div class="section-eyebrow reveal">
-        <span class="eyebrow-num">08</span>
+        <span class="eyebrow-num">09</span>
         <h2 class="eyebrow-title">Tech Stack</h2>
       </div>
       <p class="prose reveal">The prototype was built lean — a React + TypeScript frontend powered by Google Gemini for AI output, bundled with Vite for fast development. The stack prioritizes speed to prototype over production scalability.</p>
@@ -629,40 +676,40 @@
     <!-- SUCCESS METRICS -->
     <section class="case-section metrics-dark" id="metrics">
       <div class="section-eyebrow reveal">
-        <span class="eyebrow-num">09</span>
-        <h2 class="eyebrow-title">Success Metrics</h2>
+        <span class="eyebrow-num">10</span>
+        <h2 class="eyebrow-title">Validation Metrics</h2>
       </div>
-      <p style="font-size:1rem;color:rgba(255,255,255,0.5);line-height:1.8;max-width:65ch;" class="reveal">Success is measured across three layers — primary outcomes proving the core value hypothesis, engagement indicators showing product stickiness, and qualitative signals from user feedback.</p>
+      <p style="font-size:1rem;color:rgba(255,255,255,0.5);line-height:1.8;max-width:65ch;" class="reveal">Because this was a prototype-stage product, the most important metrics are about comprehension, completion, repeat usage, and qualitative feedback rather than scale.</p>
       <div class="metrics-grid reveal">
         <div class="metric-card">
-          <p class="metric-type">Primary Outcome</p>
-          <div class="metric-val">↓ Rent Burden</div>
-          <div class="metric-label">Reduction in users overspending on housing relative to income</div>
+          <p class="metric-type">Validation</p>
+          <div class="metric-val">Understanding</div>
+          <div class="metric-label">Do users clearly understand their recommended rent range?</div>
         </div>
         <div class="metric-card">
-          <p class="metric-type">Primary Outcome</p>
-          <div class="metric-val">↑ Literacy</div>
-          <div class="metric-label">Improvement in users' financial literacy scores post-use</div>
+          <p class="metric-type">Validation</p>
+          <div class="metric-val">Completion</div>
+          <div class="metric-label">% of users who complete the affordability calculator flow</div>
         </div>
         <div class="metric-card">
-          <p class="metric-type">Primary Outcome</p>
-          <div class="metric-val">Better Decisions</div>
-          <div class="metric-label">Users report making more informed renting choices (survey)</div>
-        </div>
-        <div class="metric-card">
-          <p class="metric-type">Engagement</p>
+          <p class="metric-type">Validation</p>
           <div class="metric-val">Repeat Use</div>
-          <div class="metric-label">Users return to recalculate as their financial situation changes</div>
+          <div class="metric-label">Users returning to adjust inputs and re-evaluate their budget</div>
         </div>
         <div class="metric-card">
-          <p class="metric-type">Engagement</p>
-          <div class="metric-val">300K</div>
-          <div class="metric-label">Target new account sign-ups in first 12 months</div>
+          <p class="metric-type">Behavior</p>
+          <div class="metric-val">Budget Shift</div>
+          <div class="metric-label">Whether users change their target rent after seeing the results</div>
         </div>
         <div class="metric-card">
-          <p class="metric-type">Satisfaction</p>
-          <div class="metric-val">NPS 9</div>
-          <div class="metric-label">Target Net Promoter Score — validated through monthly user surveys</div>
+          <p class="metric-type">Research</p>
+          <div class="metric-val">Feedback</div>
+          <div class="metric-label">Themes from usability sessions such as trust, clarity, confusion, and usefulness</div>
+        </div>
+        <div class="metric-card">
+          <p class="metric-type">Trust</p>
+          <div class="metric-val">Confidence</div>
+          <div class="metric-label">Whether the output feels credible enough to influence a real housing decision</div>
         </div>
       </div>
     </section>
@@ -670,42 +717,31 @@
     <!-- ROADMAP -->
     <section class="case-section" id="roadmap">
       <div class="section-eyebrow reveal">
-        <span class="eyebrow-num">10</span>
-        <h2 class="eyebrow-title">3-Year Roadmap</h2>
+        <span class="eyebrow-num">11</span>
+        <h2 class="eyebrow-title">Next Steps</h2>
       </div>
-      <p class="prose reveal">The roadmap phases from a focused Austin MVP calculator into a full financial empowerment platform — then explores AI personalization and community features, and ultimately evaluates global expansion.</p>
+      <p class="prose reveal">The next phase of the project is focused on validation and refinement before expanding feature scope.</p>
       <div class="roadmap-grid reveal">
         <div class="roadmap-col">
-          <p class="roadmap-period">Q1 — Foundation</p>
-          <h3>MVP Launch</h3>
-          <div class="roadmap-item">Launch Affordability Calculator with validation</div>
-          <div class="roadmap-item">Enable save and print functionality</div>
-          <div class="roadmap-item">Publish financial literacy articles and videos</div>
-          <div class="roadmap-item">User testing and feedback iteration</div>
+          <p class="roadmap-period">Short Term</p>
+          <h3>Validate the Output</h3>
+          <div class="roadmap-item">Run usability sessions on the 3-tier recommendation model</div>
+          <div class="roadmap-item">Test whether users prefer a single number or a guided range</div>
+          <div class="roadmap-item">Identify where users hesitate or lose trust</div>
         </div>
         <div class="roadmap-col">
-          <p class="roadmap-period">Q2 — Engagement</p>
-          <h3>Location & Profiles</h3>
-          <div class="roadmap-item">Introduce Austin neighborhood-specific data</div>
-          <div class="roadmap-item">Cost of living comparisons by area</div>
-          <div class="roadmap-item">User profiles with saved calculations</div>
-          <div class="roadmap-item">Data privacy and compliance review</div>
+          <p class="roadmap-period">Mid Term</p>
+          <h3>Improve Context</h3>
+          <div class="roadmap-item">Add neighborhood-level cost insights tied to affordability ranges</div>
+          <div class="roadmap-item">Refine educational guidance based on common questions</div>
+          <div class="roadmap-item">Strengthen the actionability of the results screen</div>
         </div>
         <div class="roadmap-col">
-          <p class="roadmap-period">Q3–Q4 — Personalization</p>
-          <h3>Smart Recommendations</h3>
-          <div class="roadmap-item">AI-powered housing recommendation engine</div>
-          <div class="roadmap-item">Budget, location, and preference criteria</div>
-          <div class="roadmap-item">Usability enhancements from user feedback</div>
-          <div class="roadmap-item">Mobile and accessibility optimization</div>
-        </div>
-        <div class="roadmap-col">
-          <p class="roadmap-period">Year 2–3 — Expansion</p>
-          <h3>Scale & Grow</h3>
-          <div class="roadmap-item">ML integration for smarter recommendations</div>
-          <div class="roadmap-item">Community forums and user-generated content</div>
-          <div class="roadmap-item">Partnerships with financial education orgs</div>
-          <div class="roadmap-item">Evaluate multi-city and global expansion</div>
+          <p class="roadmap-period">Long Term</p>
+          <h3>Personalize Recommendations</h3>
+          <div class="roadmap-item">Tailor recommendations based on user behavior and preferences</div>
+          <div class="roadmap-item">Explore smarter location matching based on budget tradeoffs</div>
+          <div class="roadmap-item">Evaluate which premium features are actually worth building</div>
         </div>
       </div>
     </section>
@@ -713,25 +749,25 @@
     <!-- GO TO MARKET -->
     <section class="case-section alt-bg" id="gtm">
       <div class="section-eyebrow reveal">
-        <span class="eyebrow-num">11</span>
-        <h2 class="eyebrow-title">Go-to-Market Strategy</h2>
+        <span class="eyebrow-num">12</span>
+        <h2 class="eyebrow-title">Initial Distribution Thinking</h2>
       </div>
-      <p class="prose reveal">The GTM strategy targets first-time renters through three channels: institutional partnerships, content marketing, and community-driven growth — with a freemium model anchored on the calculator and premium resources behind a low-cost paywall.</p>
+      <p class="prose reveal">For an early version of the product, distribution would focus on reaching first-time renters where trust and education already exist.</p>
       <div class="gtm-grid reveal">
         <div class="gtm-card">
           <div class="gtm-num">01</div>
-          <h3>Pre-Launch</h3>
-          <p>Social media teasing, targeted ads, and a beta testing group from Austin's student and young professional community. Build anticipation before the official launch with a countdown and early access list.</p>
+          <h3>Student & Young Professional Channels</h3>
+          <p>Reach early users through student communities, recent graduates, and young professionals navigating their first independent housing decision.</p>
         </div>
         <div class="gtm-card">
           <div class="gtm-num">02</div>
-          <h3>Partnerships</h3>
-          <p>Establish partnerships with real estate agencies, housing providers, educational institutions, and community housing organizations in Austin to expand reach and add credibility. Cross-promotion and co-marketing.</p>
+          <h3>Education-Led Content</h3>
+          <p>Use budgeting, affordability, and renting content to attract users who are actively trying to make smarter housing decisions.</p>
         </div>
         <div class="gtm-card">
           <div class="gtm-num">03</div>
-          <h3>Content & Community</h3>
-          <p>Blog posts, videos, and infographics on renting, financial literacy, and Austin housing trends. Active social media presence. Email campaigns segmented by user behavior. Forums for renters to share experiences.</p>
+          <h3>Local Credibility Partners</h3>
+          <p>Partner with housing, education, and community organizations that already support first-time renters and can reinforce trust.</p>
         </div>
       </div>
 
@@ -745,7 +781,7 @@
           </div>
           <div>
             <p style="font-size:0.82rem;font-weight:500;color:var(--ink);margin-bottom:0.35rem;">Premium Tier</p>
-            <p style="font-size:0.85rem;color:var(--ink-soft);line-height:1.65;">Small monthly fee unlocks financial literacy resources, saved calculation history, location insights, and personalized recommendations.</p>
+            <p style="font-size:0.85rem;color:var(--ink-soft);line-height:1.65;">Potential future premium features could include saved history, deeper neighborhood insights, and more personalized guidance once the core experience is validated.</p>
           </div>
         </div>
       </div>
@@ -754,26 +790,26 @@
     <!-- REFLECTION -->
     <section class="case-section" id="reflection">
       <div class="section-eyebrow reveal">
-        <span class="eyebrow-num">12</span>
+        <span class="eyebrow-num">13</span>
         <h2 class="eyebrow-title">Reflection</h2>
       </div>
-      <p class="prose reveal">Rentwise was my most complete end-to-end PM exercise — from problem discovery through a working AI prototype. Building every deliverable in the same 13-week bootcamp that covered the theory behind them accelerated my learning significantly.</p>
+      <p class="prose reveal">Rentwise was my strongest end-to-end PM exercise because it forced me to move from problem framing into product decisions, MVP scoping, and prototype validation.</p>
       <div class="reflection-grid reveal">
         <div class="reflection-card highlight">
           <h4>Biggest PM Lesson</h4>
-          <p>Scoping ruthlessly is a product skill, not a limitation. Keeping Rentwise Austin-only and building a free calculator before any premium features forced clarity on what the core value proposition actually was. Every constraint became a sharper decision.</p>
+          <p>Scoping is a product decision. Limiting the product to Austin and focusing on affordability before listings forced clarity on the core value proposition.</p>
         </div>
         <div class="reflection-card highlight">
           <h4>What the Prototype Proved</h4>
-          <p>Building the working AI prototype validated that the core UX — enter income, get three clear budget tiers with context — was immediately understandable without any onboarding. The Gemini output was specific enough to be useful and conservative enough to be trustworthy.</p>
+          <p>The core interaction was easy to understand: users could enter financial inputs and quickly interpret the output without needing much explanation.</p>
         </div>
         <div class="reflection-card">
           <h4>What I'd Validate Next</h4>
-          <p>The biggest open question is whether the three-tier output (Conservative / Moderate / Stretch) is the right framing, or whether users want a single recommended number with a range. I'd run 5 usability sessions with real first-time Austin renters before committing to the output format.</p>
+          <p>The biggest UX question is whether users prefer a single recommended rent number or a tiered range. That is the next decision I would validate through usability testing.</p>
         </div>
         <div class="reflection-card">
-          <h4>In the Lab Impact</h4>
-          <p>The bootcamp's structure — learning a PM concept one week, applying it to a real product the next — compressed months of on-the-job learning into 13 weeks. Presenting to a panel of product leaders at the final session was the most valuable feedback experience I've had as a PM.</p>
+          <h4>How I Think as a PM</h4>
+          <p>This project reflects how I like to work: define the real problem, narrow the MVP aggressively, build enough to learn, and use that learning to decide what deserves to exist next.</p>
         </div>
       </div>
     </section>
@@ -785,12 +821,12 @@
         <p>Built during the In the Lab PM Bootcamp · 13-week cohort</p>
       </div>
       <div class="footer-links">
-        <a href="https://docs.google.com/document/d/1wDsNCH0CtY-l4A1zy-CpmxXhpEeju7zAdQCpC2KKg9s/edit" target="_blank" class="btn-primary">
+        <a href="https://docs.google.com/document/d/1wDsNCH0CtY-l4A1zy-CpmxXhpEeju7zAdQCpC2KKg9s/edit" target="_blank" rel="noopener noreferrer" class="btn-primary">
           View One-Pager
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="https://docs.google.com/document/d/1j30QBuVqUpZgHSsN9mdDZ6Vf6vWIPsDt9Ube5GzlYGc/edit" target="_blank" class="btn-ghost">View PRD</a>
-        <a href="https://www.figma.com/board/vBKbL5hv93skhGgJWKbvF8/Rentwise--Working-name-" target="_blank" class="btn-ghost">FigJam Flow</a>
+        <a href="https://docs.google.com/document/d/1j30QBuVqUpZgHSsN9mdDZ6Vf6vWIPsDt9Ube5GzlYGc/edit" target="_blank" rel="noopener noreferrer" class="btn-ghost">View PRD</a>
+        <a href="https://www.figma.com/board/vBKbL5hv93skhGgJWKbvF8/Rentwise--Working-name-" target="_blank" rel="noopener noreferrer" class="btn-ghost">FigJam Flow</a>
         <a href="/portfolio/#work" class="btn-ghost">← All Projects</a>
       </div>
     </div>
