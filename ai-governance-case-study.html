@@ -409,6 +409,11 @@
         <h2 class="eyebrow-title">The Problem</h2>
       </div>
       <p class="prose reveal">Fintechs and AI-enabled financial startups are deploying high-impact models without structured, regulator-aligned governance frameworks. As AI adoption accelerates — model inventories are growing 30–50% annually — governance processes remain largely manual, slow, and inconsistent.</p>
+      <div class="reveal" style="background: var(--bg-alt); padding: 1.5rem; border-radius: 8px; margin-top: 2rem; border-left: 3px solid var(--accent);">
+        <p class="prose" style="margin-bottom: 0; font-size: 0.95rem;">
+          <strong>A Note on the Prototype:</strong> This project was an exercise in <em>rapid prototyping and problem validation</em>, not production-ready design. I used <a href="https://magicpatterns.com/c/34da19" target="_blank" style="color: var(--accent); text-decoration: underline;">Magic Patterns</a> (an AI UI generator) to quickly generate the frontend interface based on my product requirements. The focus was entirely on testing the <em>workflow, logic, and value proposition</em> with potential users, rather than polishing UI components.
+        </p>
+      </div>
       <div style="margin-top:2rem;padding:1.5rem 2rem;background:#fef3c7;border-left:3px solid #f59e0b;" class="reveal">
         <p style="font-size:0.78rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#92400e;margin-bottom:0.5rem;">Current State</p>
         <p style="font-size:0.9rem;color:#78350f;line-height:1.7;">Manual intake → manual documentation → manual review → examiner findings → remediation cycle <strong>(6–12 weeks per model)</strong></p>
@@ -748,6 +753,10 @@
           </div>
         </div>
       </div>
+      <div class="reveal" style="margin-top: 3rem;">
+        <h3 class="section-title" style="font-size: 1.5rem; margin-bottom: 1rem;">Feedback Received</h3>
+        <p class="prose">The response was overwhelmingly positive. Compliance officers highlighted the "Draft Docs" feature as a massive time-saver, estimating it could reduce documentation time by up to 70%. Product managers appreciated the clear, structured workflow that removed the guesswork from compliance requirements. The feedback validated the core hypothesis: an AI copilot can significantly streamline the governance process.</p>
+      </div>
     </section>
 
     <!-- REFLECTION -->
@@ -777,6 +786,31 @@
       </div>
     </section>
 
+    <!-- APPENDIX -->
+    <section class="case-section" style="padding-top: 0; padding-bottom: 4rem;">
+      <div class="reveal">
+        <h3 class="section-title" style="font-size: 1.5rem; margin-bottom: 1rem;">Technical & Governance Appendix</h3>
+        <p class="prose" style="margin-bottom: 1rem;">For those interested in the underlying mechanics of the proposed solution, here is a high-level overview of the intended architecture and governance logic.</p>
+
+        <div style="display: grid; gap: 1.5rem; grid-template-columns: 1fr;">
+          <div style="background: var(--bg-alt); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
+            <h4 style="font-size: 1.1rem; margin-bottom: 0.75rem;">1. RAG-Based Context Engine</h4>
+            <p class="prose" style="font-size: 0.95rem; margin-bottom: 0;">The copilot leverages a Retrieval-Augmented Generation (RAG) architecture. When a PM uploads a model card or product spec, the system vectorizes the document and queries an internal knowledge base of company policies, regulatory frameworks (e.g., EU AI Act, NIST AI RMF), and past compliance decisions to surface relevant risks.</p>
+          </div>
+
+          <div style="background: var(--bg-alt); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
+            <h4 style="font-size: 1.1rem; margin-bottom: 0.75rem;">2. Risk Scoring Algorithm</h4>
+            <p class="prose" style="font-size: 0.95rem; margin-bottom: 0;">The risk tiering (Low, Medium, High, Unacceptable) is calculated using a weighted matrix evaluating: Data Sensitivity (PII, PHI), Model Opacity (Explainability), Decision Impact (Human-in-the-loop vs. Autonomous), and Regulatory Exposure. Any model scoring above a predefined threshold automatically triggers a mandatory review workflow.</p>
+          </div>
+
+          <div style="background: var(--bg-alt); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);">
+            <h4 style="font-size: 1.1rem; margin-bottom: 0.75rem;">3. Audit Trail Logging</h4>
+            <p class="prose" style="font-size: 0.95rem; margin-bottom: 0;">Every action within the platform—from initial risk assessment to final approval—is logged immutably. This creates a provable chain of custody for compliance audits, detailing *who* approved a model, *when*, and *what information* was used to make the decision.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- FOOTER CTA -->
     <div class="case-footer reveal">
       <div class="footer-text">
@@ -784,7 +818,7 @@
         <p>Built in AI Prototyping for PMs · Week 3 deliverable</p>
       </div>
       <div class="footer-links">
-        <a href="https://www.magicpatterns.com/c/nzpwutywwzwegna5dhgecx/preview" target="_blank" class="btn-primary">
+        <a href="https://magicpatterns.com/c/34da19" target="_blank" class="btn-primary">
           View Prototype
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
