@@ -673,6 +673,20 @@
 
       .cases-grid-2-cols { display: grid; grid-template-columns: repeat(2, 1fr) !important; }
     }
+
+    @media (min-width: 1024px) {
+      body { font-size: 18px; }
+      .hero-name { font-size: clamp(3.5rem, 5vw, 6rem); }
+      .hero-desc { font-size: 1.1rem; }
+      .prose { font-size: 1.05rem; }
+      .section-title { font-size: clamp(2.25rem, 3.5vw, 3.25rem); }
+      .card-body { font-size: 0.95rem; }
+      .case-title { font-size: 2.5rem; }
+      .metric-val { font-size: 2rem; }
+      .stat-num { font-size: 3rem; }
+      nav { padding: 1.25rem 5rem; }
+      .case-section { padding: 7rem 5rem; }
+    }
   </style>
 </head>
 <body>
