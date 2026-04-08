@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FreedomTrack — Case Study | Marc A. Louis-Charles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #111110;
+      --ink-soft: #55554e;
+      --ink-muted: #99998f;
+      --paper: #fafaf8;
+      --paper-warm: #f3f2ee;
+      --accent: #4f46e5;
+      --accent-light: #eef2ff;
+      --accent2: #c8622a;
+      --border: #e4e3de;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 16px; line-height: 1.6; font-weight: 300; overflow-x: hidden;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 4rem;
+      background: rgba(250,250,248,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+    .nav-back { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--accent); }
+
+    /* LAYOUT */
+    .page-layout { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; padding-top: 68px; }
+    .sidebar { position: sticky; top: 68px; height: calc(100vh - 68px); padding: 3rem 2rem; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.25rem; overflow-y: auto; }
+    .sidebar-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 1rem; margin-top: 0.5rem; }
+    .sidebar a { font-size: 0.82rem; color: var(--ink-muted); text-decoration: none; padding: 0.4rem 0.75rem; border-left: 2px solid transparent; transition: color 0.2s, border-color 0.2s; display: block; }
+    .sidebar a:hover, .sidebar a.active { color: var(--accent); border-left-color: var(--accent); }
+
+    /* HERO */
+    .case-hero { background: #0f0e1a; padding: 6rem 4rem; position: relative; overflow: hidden; min-height: 500px; display: flex; flex-direction: column; justify-content: flex-end; }
+    .case-hero::before { content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(79,70,229,0.25) 0%, transparent 70%); }
+    .case-hero::after { content: ''; position: absolute; bottom: -60px; left: 4rem; width: 260px; height: 260px; border-radius: 50%; border: 1px solid rgba(79,70,229,0.15); }
+
+    .hero-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; position: relative; z-index: 1; animation: fadeUp 0.6s 0.1s ease both; flex-wrap: wrap; }
+    .hero-tag { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #a5b4fc; background: rgba(79,70,229,0.2); border: 1px solid rgba(79,70,229,0.4); padding: 0.25rem 0.75rem; }
+    .hero-tag-plain { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+
+    .case-hero h1 { font-family: var(--serif); font-size: clamp(2.5rem, 4.5vw, 4.5rem); color: #fff; line-height: 1.05; margin-bottom: 1.25rem; position: relative; z-index: 1; animation: fadeUp 0.6s 0.2s ease both; }
+    .case-hero h1 em { font-style: italic; color: rgba(255,255,255,0.4); }
+    .case-hero p.hero-desc { font-size: 1rem; color: rgba(255,255,255,0.55); max-width: 60ch; line-height: 1.8; position: relative; z-index: 1; animation: fadeUp 0.6s 0.3s ease both; }
+    .hero-stats-row { display: flex; gap: 3rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); position: relative; z-index: 1; animation: fadeUp 0.6s 0.4s ease both; flex-wrap: wrap; }
+    .hero-stat-val { font-family: var(--serif); font-size: 1.8rem; color: #fff; line-height: 1; margin-bottom: 0.2rem; }
+    .hero-stat-label { font-size: 0.68rem; color: rgba(255,255,255,0.3); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* SECTIONS */
+    .case-section { padding: 5rem 4rem; border-bottom: 1px solid var(--border); }
+    .alt-bg { background: var(--paper-warm); }
+    .section-eyebrow { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2.5rem; }
+    .eyebrow-num { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+    .eyebrow-title { font-family: var(--serif); font-size: clamp(1.75rem, 2.5vw, 2.25rem); color: var(--ink); line-height: 1.1; }
+
+    .prose { font-size: 1rem; color: var(--ink-soft); line-height: 1.9; max-width: 68ch; }
+    .prose strong { color: var(--ink); font-weight: 500; }
+
+    /* OVERVIEW */
+    .overview-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 5rem; align-items: start; }
+    .overview-meta { display: flex; flex-direction: column; gap: 1px; }
+    .meta-item { padding: 1.25rem 1.5rem; background: var(--paper-warm); border-left: 2px solid transparent; transition: border-color 0.2s; }
+    .meta-item:hover { border-left-color: var(--accent); }
+    .meta-item h4 { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+    .meta-item p { font-size: 0.88rem; color: var(--ink-soft); }
+
+    /* GRIDS */
+    .two-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); margin-top: 3rem; }
+    .three-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .four-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+
+    .card { background: var(--paper); padding: 2rem; }
+    .card.hover { transition: background 0.2s; }
+    .card.hover:hover { background: var(--accent-light); }
+    .card-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .card h3 { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.5rem; }
+    .card p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.7; }
+    .card-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+    .card-list li { font-size: 0.85rem; color: var(--ink-soft); display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.6; }
+    .card-list li::before { content: '→'; color: var(--accent); flex-shrink: 0; }
+
+    /* MODULE BLOCKS */
+    .module-block { display: grid; grid-template-columns: 1fr 1.5fr; gap: 2px; background: var(--border); margin-bottom: 2px; }
+    .module-meta { background: #0f0e1a; padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; }
+    .module-badge { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #a5b4fc; background: rgba(79,70,229,0.2); border: 1px solid rgba(79,70,229,0.3); padding: 0.2rem 0.6rem; display: inline-block; margin-bottom: 1rem; width: fit-content; }
+    .module-name { font-family: var(--serif); font-size: 1.5rem; color: white; margin-bottom: 0.75rem; }
+    .module-purpose { font-size: 0.85rem; color: rgba(255,255,255,0.45); line-height: 1.7; }
+    .module-content { background: var(--paper); padding: 2.5rem; }
+    .module-content h4 { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+
+    /* TECH STACK */
+    .tech-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: var(--border); margin-top: 3rem; }
+    .tech-card { background: var(--paper); padding: 1.75rem; text-align: center; }
+    .tech-icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    .tech-name { font-size: 0.85rem; font-weight: 500; color: var(--ink); margin-bottom: 0.25rem; }
+    .tech-role { font-size: 0.72rem; color: var(--ink-muted); letter-spacing: 0.04em; }
+
+    /* METRICS DARK */
+    .metrics-dark { background: #0f0e1a; }
+    .metrics-dark .eyebrow-num { color: rgba(79,70,229,0.8); }
+    .metrics-dark .eyebrow-title { color: white; }
+    .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: rgba(255,255,255,0.05); margin-top: 3rem; }
+    .metric-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 2rem; }
+    .metric-val { font-family: var(--serif); font-size: 2rem; color: #a5b4fc; line-height: 1; margin-bottom: 0.35rem; }
+    .metric-label { font-size: 0.72rem; color: rgba(255,255,255,0.35); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.5; }
+
+    /* REFLECTION */
+    .reflection-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; }
+    .reflection-card { padding: 2rem; background: var(--paper-warm); border-left: 3px solid var(--border); }
+    .reflection-card.highlight { border-left-color: var(--accent); }
+    .reflection-card h4 { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .reflection-card p { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.8; }
+
+    /* FOOTER */
+    .case-footer { padding: 5rem 4rem; background: var(--paper-warm); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .footer-text h3 { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); margin-bottom: 0.5rem; }
+    .footer-text p { font-size: 0.88rem; color: var(--ink-soft); }
+    .footer-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--ink); color: var(--paper); text-decoration: none; padding: 0.85rem 1.75rem; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em; transition: background 0.2s, transform 0.2s; }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--ink-soft); text-decoration: none; font-size: 0.82rem; padding: 0.85rem 1.75rem; border: 1px solid var(--border); transition: color 0.2s, border-color 0.2s; }
+    .btn-ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .case-hero, .case-section, .case-footer { padding: 3rem 1.5rem; }
+      .overview-grid, .two-grid, .three-grid, .four-grid, .tech-grid, .metrics-grid, .reflection-grid, .module-block { grid-template-columns: 1fr; }
+      .case-footer { flex-direction: column; gap: 2rem; align-items: flex-start; }
+    }
+  </style>
+
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "w89fdzkegy");
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GWZ750QZ41"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GWZ750QZ41');
+</script>
+</head>
+<body>
+
+<nav>
+  <a href="/portfolio/" class="nav-logo">Marc A. Louis-Charles</a>
+  <a href="/portfolio/#work" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 7H2M6 3L2 7l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    All Case Studies
+  </a>
+</nav>
+
+<div class="page-layout">
+  <aside class="sidebar">
+    <p class="sidebar-label">On this page</p>
+    <a href="#overview">Overview</a>
+    <a href="#problem">The Problem</a>
+    <a href="#modules">15+ Modules</a>
+    <a href="#tech">Tech Stack</a>
+    <a href="#north-star">North Star</a>
+    <a href="#impact">Impact</a>
+    <a href="#reflection">Reflection</a>
+  </aside>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="case-hero" id="top">
+      <div class="hero-meta">
+        <span class="hero-tag">AI-Powered App · Personal Finance</span>
+        <span class="hero-tag-plain">React · Google Gemini · 2025</span>
+      </div>
+      <h1>Freedom<em>Track</em></h1>
+      <p class="hero-desc">A full-stack AI personal finance dashboard built from scratch with React, TypeScript, and Google Gemini — helping users track spending, eliminate debt, build wealth, and project their financial "freedom date" through 15+ AI-powered modules.</p>
+      <div class="hero-stats-row">
+        <div>
+          <div class="hero-stat-val">15+</div>
+          <div class="hero-stat-label">AI-powered modules</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">5</div>
+          <div class="hero-stat-label">Core workflow stages</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">Gemini</div>
+          <div class="hero-stat-label">AI engine</div>
+        </div>
+        <div>
+          <div class="hero-stat-val">React</div>
+          <div class="hero-stat-label">Frontend framework</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OVERVIEW -->
+    <section class="case-section" id="overview">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">01</span>
+        <h2 class="eyebrow-title">Overview</h2>
+      </div>
+      <div class="overview-grid">
+        <div class="reveal">
+          <p class="prose">FreedomTrack is an AI-powered personal finance MVP I designed and built from scratch. The core idea: most personal finance apps track your spending — but none connect the dots between your daily financial behavior and your long-term financial independence. FreedomTrack does both, using Google Gemini AI to generate insights, audit subscriptions, stress-test finances, and project a personalized "freedom date" — the day you achieve financial independence.</p>
+          <p class="prose" style="margin-top:1.25rem;">Built as a hands-on AI prototyping project, FreedomTrack demonstrates full product thinking — from problem definition and user flow design through to a working, feature-complete React application with 15+ distinct AI-powered modules working together as a cohesive product.</p>
+        </div>
+        <div class="overview-meta reveal">
+          <div class="meta-item">
+            <h4>My Role</h4>
+            <p>Product Manager & Builder (Solo)</p>
+          </div>
+          <div class="meta-item">
+            <h4>Type</h4>
+            <p>AI-Powered Web App — Built from scratch</p>
+          </div>
+          <div class="meta-item">
+            <h4>Tech Stack</h4>
+            <p>React · TypeScript · Google Gemini AI · Recharts · Tailwind CSS</p>
+          </div>
+          <div class="meta-item">
+            <h4>AI Engine</h4>
+            <p>Google Gemini — powers all narrative generation, auditing, and analysis</p>
+          </div>
+          <div class="meta-item">
+            <h4>Data Storage</h4>
+            <p>Local storage — all data stays on device, no backend required</p>
+          </div>
+          <div class="meta-item">
+            <h4>North Star Metric</h4>
+            <p>Time to first "freedom date" projection</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="case-section alt-bg" id="problem">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">02</span>
+        <h2 class="eyebrow-title">The Problem</h2>
+      </div>
+      <p class="prose reveal">Personal finance apps are good at recording what happened — but terrible at helping users understand what it means or what to do about it. Most people have no idea how their daily spending decisions connect to their long-term financial future.</p>
+      <div class="two-grid reveal">
+        <div class="card">
+          <div class="card-icon">📊</div>
+          <h3>Tracking Without Insight</h3>
+          <p>Most apps show you charts of where your money went. None connect spending behavior to long-term financial independence. Users track, but don't change.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🩸</div>
+          <h3>Subscription Drain</h3>
+          <p>Recurring subscriptions silently accumulate. Users routinely pay for services they forgot they had — or have multiple overlapping subscriptions doing the same job.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💳</div>
+          <h3>Debt Without Strategy</h3>
+          <p>Most people pay minimums on debt without a clear payoff strategy. The difference between Snowball and Avalanche approaches can save thousands in interest — but requires calculation most people never do.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🎯</div>
+          <h3>No Freedom Horizon</h3>
+          <p>Nobody knows their financial independence date. Without a concrete target, financial decisions feel abstract. FreedomTrack makes that date real — and shows exactly what changes it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULES -->
+    <section class="case-section" id="modules">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">03</span>
+        <h2 class="eyebrow-title">15+ AI-Powered Modules</h2>
+      </div>
+      <p class="prose reveal">FreedomTrack is built as a tabbed dashboard with 15+ distinct modules — each addressing a specific financial pain point. Every module uses Google Gemini AI for narrative generation and insight, while keeping deterministic logic (like debt scoring and tier classification) fully transparent and rule-based.</p>
+
+      <div style="margin-top:3rem;">
+
+        <!-- Vampire Audit -->
+        <div class="module-block reveal">
+          <div class="module-meta">
+            <span class="module-badge">AI Audit</span>
+            <p class="module-name">🦇 Vampire Audit</p>
+            <p class="module-purpose">Identifies hidden subscription leaks and redundant recurring expenses that are silently draining the user's finances.</p>
+          </div>
+          <div class="module-content">
+            <h4>What it does</h4>
+            <ul class="card-list">
+              <li>AI scans all recurring expenses and cross-references them for redundancy and unused services</li>
+              <li>Flags subscriptions the user likely forgot about or no longer uses</li>
+              <li>Calculates total annual cost of all subscriptions</li>
+              <li>Generates plain-language audit insight with specific cancellation recommendations</li>
+              <li>Recurring expenses auto-carry over to next budget cycle</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Debt Fortress -->
+        <div class="module-block reveal">
+          <div class="module-meta">
+            <span class="module-badge">Strategy Engine</span>
+            <p class="module-name">🏰 Debt Fortress</p>
+            <p class="module-purpose">Snowball vs Avalanche debt payoff strategy engine with a 5-year projection chart and AI strategy intelligence.</p>
+          </div>
+          <div class="module-content">
+            <h4>What it does</h4>
+            <ul class="card-list">
+              <li>Snowball (lowest balance first) vs Avalanche (highest APR first) toggle — updates all calculations instantly</li>
+              <li>5-year payoff projection chart using AreaChart — shows balance declining to zero over time</li>
+              <li>AI explains which strategy saves more interest and how many months it saves</li>
+              <li>Tracks total debt, minimum monthly payments, and projected payoff date</li>
+              <li>Each debt card shows APR, balance, and minimum payment with strategy highlight</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Freedom Horizon -->
+        <div class="module-block reveal">
+          <div class="module-meta">
+            <span class="module-badge">AI Projection</span>
+            <p class="module-name">🌅 Freedom Horizon</p>
+            <p class="module-purpose">AI projects the user's financial independence date with a milestone roadmap and confidence-rated targets.</p>
+          </div>
+          <div class="module-content">
+            <h4>What it does</h4>
+            <ul class="card-list">
+              <li>Calculates an estimated "freedom date" — the day the user achieves financial independence based on current trajectory</li>
+              <li>3 milestone cards with ETA in years/months, confidence level (High/Medium), and specific action items</li>
+              <li>Yearly velocity metric — how much net worth grows per year at current rate</li>
+              <li>Simulated mode available via Wealth Lab — shows how income/expense changes shift the date</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Economic Fortress -->
+        <div class="module-block reveal">
+          <div class="module-meta">
+            <span class="module-badge">Stress Test</span>
+            <p class="module-name">🏛️ Economic Fortress</p>
+            <p class="module-purpose">AI stress-tests the user's finances against real-world shock scenarios — job loss, inflation spikes, and emergency events.</p>
+          </div>
+          <div class="module-content">
+            <h4>What it does</h4>
+            <ul class="card-list">
+              <li>Resilience score with 4 levels: Fragile, Stable, Fortified, Unstoppable</li>
+              <li>Runway months — how long current savings would last with no income</li>
+              <li>Two pre-built stress tests: "10% Inflation Spike" and "Income Loss for 3 Months"</li>
+              <li>AI generates a scenario-specific analysis for each stress test</li>
+              <li>Emergency fund status assessment with critical advice</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Wealth Lab -->
+        <div class="module-block reveal">
+          <div class="module-meta">
+            <span class="module-badge">Simulation</span>
+            <p class="module-name">🧪 Wealth Lab</p>
+            <p class="module-purpose">Live simulation sliders that model how income increases or expense cuts would change the user's freedom date.</p>
+          </div>
+          <div class="module-content">
+            <h4>What it does</h4>
+            <ul class="card-list">
+              <li>Income Delta slider: -$1,000 to +$5,000 — models effect of raise, side income, or income loss</li>
+              <li>Monthly Burn Cut slider: $0 to $2,000 — models effect of expense reduction</li>
+              <li>Runs AI simulation and updates the Freedom Horizon projection in real time</li>
+              <li>Simulation results are clearly labeled as experimental — not saved to the main projection</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Remaining modules summary -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);margin-top:2px;" class="reveal">
+          <div class="card hover">
+            <div class="card-icon">📅</div>
+            <h3>Monthly Retrospective</h3>
+            <p>AI-graded financial report card — grades spending month (A–F), identifies The Win, The Leak, and The Pivot for the next month.</p>
+          </div>
+          <div class="card hover">
+            <div class="card-icon">🧠</div>
+            <h3>Spending Persona</h3>
+            <p>AI analyzes spending patterns and assigns a financial alter-ego with a dominant trait, description, and behavioral pivot recommendation.</p>
+          </div>
+          <div class="card hover">
+            <div class="card-icon">❤️</div>
+            <h3>Vibe / Sentiment Audit</h3>
+            <p>Tags each expense as Joyful, Essential, Neutral, or Regret — then visualizes the emotional ROI of spending as a percentage breakdown.</p>
+          </div>
+          <div class="card hover">
+            <div class="card-icon">🎮</div>
+            <h3>Savings Quests</h3>
+            <p>Gamified weekly savings missions — Easy / Medium / Hard difficulty with a reward capacity metric. Users accept missions and track completion.</p>
+          </div>
+          <div class="card hover">
+            <div class="card-icon">⚖️</div>
+            <h3>Big Purchase Validator</h3>
+            <p>AI audits a potential purchase against the user's budget and spending history — calculating the "freedom cost" in weeks of financial independence lost.</p>
+          </div>
+          <div class="card hover">
+            <div class="card-icon">📈</div>
+            <h3>Market Pulse</h3>
+            <p>Displays current inflation rate, savings yield, and an economic outlook — with a plain-language strategy alignment recommendation.</p>
+          </div>
+          <div class="card hover">
+            <div class="card-icon">💰</div>
+            <h3>Net Worth Engine</h3>
+            <p>Tracks assets and debts, calculates net worth, liquidity ratio, and debt-to-asset ratio. Visualizes asset and debt distribution with stacked bar charts.</p>
+          </div>
+          <div class="card hover">
+            <div class="card-icon">🎯</div>
+            <h3>Category Budget Manager</h3>
+            <p>Set spending limits per category with live progress bars. AI optimizer suggests reallocation based on spending patterns. Alerts when limits are exceeded.</p>
+          </div>
+          <div class="card hover">
+            <div class="card-icon">💬</div>
+            <h3>Freedom Assistant</h3>
+            <p>Floating chat assistant synced with the user's full financial data — answers questions about spending, budget, and savings in natural language.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section class="case-section alt-bg" id="tech">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">04</span>
+        <h2 class="eyebrow-title">Tech Stack</h2>
+      </div>
+      <p class="prose reveal">Built lean and fast — a React + TypeScript frontend powered entirely by Google Gemini for all AI features. No backend required — all data is stored locally on the user's device.</p>
+      <div class="tech-grid reveal">
+        <div class="tech-card">
+          <div class="tech-icon">⚛️</div>
+          <div class="tech-name">React + TypeScript</div>
+          <div class="tech-role">Frontend framework</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">🤖</div>
+          <div class="tech-name">Google Gemini</div>
+          <div class="tech-role">All AI features</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">📊</div>
+          <div class="tech-name">Recharts</div>
+          <div class="tech-role">Data visualization</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">🎨</div>
+          <div class="tech-name">Tailwind CSS</div>
+          <div class="tech-role">Styling</div>
+        </div>
+      </div>
+
+      <!-- AI design principle -->
+      <div style="margin-top:2rem;padding:2rem;background:#0f0e1a;display:flex;gap:1rem;align-items:flex-start;" class="reveal">
+        <span style="font-size:1.25rem;flex-shrink:0;">🔒</span>
+        <div>
+          <p style="font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#a5b4fc;margin-bottom:0.35rem;">Key Design Principle</p>
+          <p style="font-size:0.88rem;color:rgba(255,255,255,0.65);line-height:1.7;">Google Gemini is used <strong style="color:white;">only for narrative generation and insight</strong> — not for financial calculations. All deterministic logic (debt scoring, net worth, budget math, resilience scoring) is rule-based and fully transparent. Users can always see exactly how their numbers are calculated.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- NORTH STAR -->
+    <section class="case-section" id="north-star">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">05</span>
+        <h2 class="eyebrow-title">North Star & Success Metrics</h2>
+      </div>
+      <p class="prose reveal">The product is designed around a single north star: getting users to their first meaningful financial insight as fast as possible. Every module is built to deliver an "aha moment" — a realization about their finances they didn't have before.</p>
+      <div class="three-grid reveal">
+        <div class="card" style="border-top:3px solid var(--accent);">
+          <p style="font-size:0.65rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;">North Star</p>
+          <p style="font-family:var(--serif);font-size:1.3rem;color:var(--ink);margin-bottom:0.5rem;">Time to first Freedom Date</p>
+          <p style="font-size:0.85rem;color:var(--ink-soft);line-height:1.7;">How quickly a new user reaches their first financial independence projection — the core value moment of the product.</p>
+        </div>
+        <div class="card">
+          <p style="font-size:0.65rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;">Leading Indicators</p>
+          <ul class="card-list" style="margin-top:0;">
+            <li>Expenses logged per session</li>
+            <li>Modules explored per user</li>
+            <li>Debt Fortress strategy changes</li>
+            <li>Savings Quests accepted</li>
+            <li>Wealth Lab simulations run</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p style="font-size:0.65rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;">Lagging Indicators</p>
+          <ul class="card-list" style="margin-top:0;">
+            <li>Month-over-month net worth change</li>
+            <li>Subscription cancellation rate post-Vampire Audit</li>
+            <li>Debt payoff acceleration</li>
+            <li>Freedom Date movement over time</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMPACT -->
+    <section class="case-section metrics-dark" id="impact">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">06</span>
+        <h2 class="eyebrow-title">What Was Built</h2>
+      </div>
+      <p style="font-size:1rem;color:rgba(255,255,255,0.5);line-height:1.8;max-width:65ch;" class="reveal">FreedomTrack is one of the most feature-complete AI personal finance prototypes built by a PM without an engineering team — demonstrating both product thinking and hands-on AI prototyping skills.</p>
+      <div class="metrics-grid reveal">
+        <div class="metric-card">
+          <div class="metric-val">15+</div>
+          <div class="metric-label">Distinct AI-powered modules built</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">5</div>
+          <div class="metric-label">Core workflow stages from intake to projection</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">0</div>
+          <div class="metric-label">Backend required — fully client-side</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val">Solo</div>
+          <div class="metric-label">Built entirely by one PM as a prototyping project</div>
+        </div>
+      </div>
+
+      <!-- Feature highlight -->
+      <div style="margin-top:2rem;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(255,255,255,0.05);" class="reveal">
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);padding:2rem;">
+          <p style="font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:0.75rem;">Most Innovative Feature</p>
+          <p style="font-family:var(--serif);font-size:1.2rem;color:white;margin-bottom:0.5rem;">Freedom Horizon + Wealth Lab</p>
+          <p style="font-size:0.85rem;color:rgba(255,255,255,0.45);line-height:1.7;">The combination of a projected financial independence date + live simulation sliders that instantly show how life changes affect that date is the core product innovation — no mainstream personal finance app does this.</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);padding:2rem;">
+          <p style="font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#a5b4fc;margin-bottom:0.75rem;">Most Practical Feature</p>
+          <p style="font-family:var(--serif);font-size:1.2rem;color:white;margin-bottom:0.5rem;">Vampire Audit</p>
+          <p style="font-size:0.85rem;color:rgba(255,255,255,0.45);line-height:1.7;">The subscription leak detector is the feature with the most immediate, tangible value — most users have at least 2-3 subscriptions they've forgotten about. Cancelling even one recovers the cost of the product many times over.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- REFLECTION -->
+    <section class="case-section alt-bg" id="reflection">
+      <div class="section-eyebrow reveal">
+        <span class="eyebrow-num">07</span>
+        <h2 class="eyebrow-title">Reflection</h2>
+      </div>
+      <p class="prose reveal">Building FreedomTrack from scratch — designing the product, writing the logic, and integrating Gemini AI across 15+ modules — was the most intensive hands-on prototyping experience I've had as a PM. Here's what I learned.</p>
+      <div class="reflection-grid reveal">
+        <div class="reflection-card highlight">
+          <h4>AI Should Explain, Not Decide</h4>
+          <p>The most important design decision in FreedomTrack was keeping all financial math deterministic and rule-based — AI only generates the narrative around those numbers. This made the product more trustworthy and debuggable. Users can always verify the math independently of what the AI says about it.</p>
+        </div>
+        <div class="reflection-card highlight">
+          <h4>The Freedom Date is the Product</h4>
+          <p>Every other feature exists to serve one insight: here's when you can be financially free, and here's exactly what changes it. The Wealth Lab simulation was the feature that made this tangible — watching your freedom date move as you adjust income and expenses is genuinely motivating in a way that charts of past spending never are.</p>
+        </div>
+        <div class="reflection-card">
+          <h4>Scope Creep is Real — Even Solo</h4>
+          <p>Starting with a simple expense tracker, I ended up with 15+ modules. Each feature made sense in isolation, but the cumulative complexity created UX challenges — users needed guidance on where to start. A stronger onboarding flow that directs users to the 3 most valuable modules first would have improved the product significantly.</p>
+        </div>
+        <div class="reflection-card">
+          <h4>What I'd Validate Next</h4>
+          <p>The biggest open question is whether the Vampire Audit or the Freedom Horizon drives more retention. My hypothesis is the Vampire Audit delivers faster initial value (immediate savings) while the Freedom Horizon drives longer-term engagement. I'd run a 2-week cohort study to validate which drives more return visits.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="case-footer reveal">
+      <div class="footer-text">
+        <h3>See FreedomTrack live</h3>
+        <p>Built solo with React + Google Gemini · 15+ AI modules</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://aistudio.google.com/apps/cc27fd73-8b8d-4ff5-8ef4-a558d397376f?showPreview=true" target="_blank" class="btn-primary">
+          View Live App
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="/portfolio/#work" class="btn-ghost">← All Projects</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  const sections = document.querySelectorAll('section[id]');
+  const sidebarLinks = document.querySelectorAll('.sidebar a');
+  const sidebarObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        sidebarLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + entry.target.id) link.classList.add('active');
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => sidebarObserver.observe(s));
+</script>
+</body>
+</html>
