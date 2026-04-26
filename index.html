@@ -500,48 +500,30 @@
     }
 
     /* SKILLS */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-      background: var(--border);
-      margin-bottom: 4rem;
+    #skills {
+      padding: 3rem 4rem;
     }
-    .skill-group { background: var(--paper); padding: 2rem; }
-    .skill-group-label {
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.25rem;
+    #skills .section-title {
+      font-size: 1.5rem;
     }
-    .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-    .skill-list li {
-      font-size: 0.88rem;
-      color: var(--ink-soft);
+    .skill-row {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
     }
-    .skill-list li::before {
-      content: '';
-      width: 4px; height: 4px;
-      border-radius: 50%;
-      background: var(--border);
+    .skill-row:first-of-type {
+      border-top: 1px solid var(--border);
+    }
+    .skill-category {
+      font-weight: 500;
+      color: var(--ink);
+      font-size: 0.85rem;
       flex-shrink: 0;
     }
-    .tools-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .tool-tag {
-      padding: 0.4rem 1rem;
-      background: var(--paper-warm);
-      border: 1px solid var(--border);
-      font-size: 0.8rem;
+    .skill-text {
       color: var(--ink-soft);
-      letter-spacing: 0.02em;
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      font-size: 0.85rem;
     }
-    .tool-tag:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
 
     /* CONTACT */
     #contact { background: var(--ink); border-top: none; }
@@ -666,6 +648,9 @@
       .hero-left { padding: 4rem 1.5rem; border-right: none; }
       .hero-right { padding: 2rem 1.5rem; }
       section { padding: 4rem 1.5rem; }
+      #skills { padding: 2rem 1.5rem; }
+      .skill-row { flex-direction: column; gap: 0.25rem; }
+      footer { padding: 2rem 1.5rem !important; flex-direction: column; gap: 1rem; align-items: flex-start !important; }
       .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .featured-case { grid-template-columns: 1fr; }
       .cases-grid { grid-template-columns: 1fr; }
@@ -736,8 +721,8 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#work">Work</a></li>
-    <li><a href="#skills">Skills</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="#skills">Skills</a></li>
     <li><a href="https://mlouischarles.github.io/portfolio/Resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a></li>
   </ul>
 </nav>
@@ -1164,79 +1149,12 @@
   </div>
 </section>
 
-<!-- Skills -->
-<section id="skills">
-  <div class="section-header reveal">
-    <span class="section-num">03</span>
-    <h2 class="section-title">Skills &amp; Tools</h2>
-  </div>
-  <div class="skills-grid reveal">
-    <div class="skill-group">
-      <p class="skill-group-label">Product</p>
-      <ul class="skill-list">
-        <li>Product Strategy</li>
-        <li>Roadmapping</li>
-        <li>User Research</li>
-        <li>Prioritization Frameworks</li>
-        <li>Go-to-Market</li>
-      </ul>
-    </div>
-    <div class="skill-group">
-      <p class="skill-group-label">Process</p>
-      <ul class="skill-list">
-        <li>Agile / Scrum</li>
-        <li>Sprint Planning</li>
-        <li>Stakeholder Management</li>
-        <li>OKRs &amp; Metrics</li>
-        <li>Cross-functional Leadership</li>
-      </ul>
-    </div>
-    <div class="skill-group">
-      <p class="skill-group-label">AI &amp; Tech</p>
-      <ul class="skill-list">
-        <li>LLM Prototyping</li>
-        <li>Prompt Engineering</li>
-        <li>AI Governance</li>
-        <li>API Integration</li>
-        <li>Data Analysis</li>
-      </ul>
-    </div>
-    <div class="skill-group">
-      <p class="skill-group-label">Design</p>
-      <ul class="skill-list">
-        <li>Wireframing</li>
-        <li>User Flows</li>
-        <li>Prototyping</li>
-        <li>Usability Testing</li>
-        <li>Design Thinking</li>
-      </ul>
-    </div>
-  </div>
-  <div class="reveal">
-    <p style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:1rem;">Tools I use</p>
-    <div class="tools-row">
-      <span class="tool-tag">Figma</span>
-      <span class="tool-tag">Notion</span>
-      <span class="tool-tag">Jira</span>
-      <span class="tool-tag">Linear</span>
-      <span class="tool-tag">Miro</span>
-      <span class="tool-tag">Slack</span>
-      <span class="tool-tag">Amplitude</span>
-      <span class="tool-tag">Mixpanel</span>
-      <span class="tool-tag">Claude</span>
-      <span class="tool-tag">ChatGPT</span>
-      <span class="tool-tag">Cursor</span>
-      <span class="tool-tag">Google Slides</span>
-      <span class="tool-tag">Airtable</span>
-      <span class="tool-tag">Productboard</span>
-    </div>
-  </div>
-</section>
+
 
 <!-- Contact -->
 <section id="contact">
   <div class="section-header reveal">
-    <span class="section-num">04</span>
+    <span class="section-num">03</span>
     <h2 class="section-title">Contact</h2>
   </div>
   <div class="contact-grid">
@@ -1262,11 +1180,35 @@
       </div>
     </div>
   </div>
-  <div class="contact-footer">
-    <span>© 2025 Marc A. Louis-Charles. All rights reserved.</span>
-    <span>Built with care.</span>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+  <div class="section-header reveal" style="margin-bottom: 2rem;">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Skills &amp; Tools</h2>
+  </div>
+  <div class="reveal">
+    <div class="skill-row">
+      <div class="skill-category">Product Management:&nbsp;</div>
+      <div class="skill-text">Product Roadmapping · PRD Development · User Stories &amp; Acceptance Criteria · Backlog Management · Agile/Scrum · Sprint Planning · Go-to-Market Strategy · Prioritization Frameworks</div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-category">AI &amp; Compliance:&nbsp;</div>
+      <div class="skill-text">AI Governance · Model Risk Management · Regulatory Compliance · Risk Mitigation · Audit Documentation · First Line of Defense Controls</div>
+    </div>
+    <div class="skill-row" style="border-bottom: none;">
+      <div class="skill-category">Tools &amp; Collaboration:&nbsp;</div>
+      <div class="skill-text">Jira · Trello · Figma · Notion · Miro · Cross-Functional Stakeholder Engagement · QA &amp; UAT Testing · Wireframing · User Research</div>
+    </div>
   </div>
 </section>
+
+<!-- Footer -->
+<footer style="background: var(--paper); border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--ink-muted); letter-spacing: 0.04em;">
+  <span>© 2025 Marc A. Louis-Charles. All rights reserved.</span>
+  <span>Built with care.</span>
+</footer>
 
 <!-- Persistent Contact Bar -->
 <div class="persistent-contact-bar">
