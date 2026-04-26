@@ -354,7 +354,28 @@
       font-size: 2.2rem;
       color: var(--ink);
       line-height: 1.15;
-      margin-bottom: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .outcome-pill {
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 2rem;
+      display: inline-block;
+      margin-bottom: 0.75rem;
+    }
+    .pill-green {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .pill-yellow {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .pill-blue {
+      background: #dbeafe;
+      color: #1e40af;
     }
     .case-desc {
       font-size: 0.95rem;
@@ -842,6 +863,7 @@
     <div class="featured-content">
       <p class="case-eyebrow">Course Prototype · AI Prototyping for PMs</p>
       <h3 class="case-title">AI Governance Copilot</h3>
+      <div><span class="outcome-pill pill-yellow">Built 4 SR 11-7 governance modules</span></div>
       <p class="case-desc">An AI-powered tool designed to help governance and compliance teams document, review, and audit AI models more efficiently. Built to reduce the manual overhead of model documentation while improving consistency and traceability across the organization.</p>
       <div class="case-metrics">
         <div class="metric">
@@ -876,6 +898,7 @@
     <div class="featured-content">
       <p class="case-eyebrow">Shipped Product</p>
       <h3 class="case-title">finEQUITY</h3>
+      <div><span class="outcome-pill pill-green">Co-led 20+ person cross-functional team</span></div>
       <p class="case-desc">PM Co-lead on a 501(c)(3) fintech nonprofit helping justice-impacted individuals build financial freedom through credit coaching, no-fee banking, and financial education. Coordinated cross-functional teams, set objectives, and shipped a live product that has changed 3,000+ lives — recognized by the Financial Health Network, NYC OTI, and a $225K national fellowship.</p>
       <div class="case-metrics">
         <div class="metric">
@@ -908,6 +931,7 @@
       <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
         <h3 class="card-title" style="color:var(--ink);font-style:normal;margin:0;">Travel Access</h3>
       </div>
+      <div><span class="outcome-pill pill-green">Shipped MVP in 8 weeks</span></div>
       <a href="https://www.joincolab.io" target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.65rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);text-decoration:none;background:var(--accent-light);padding:0.15rem 0.5rem;border:1px solid rgba(200,98,42,0.2);margin-bottom:0.75rem;">Co.Lab 8-Week Bootcamp</a>
       <p class="card-body">Led product as PM on an 8-week Co.Lab bootcamp — a top-rated program with a 75% placement rate and alums at Microsoft, Google &amp; Amazon. Conducted user research with 31 participants, identified the packing checklist as the MVP focus, and shipped a live travel app built on React &amp; Ruby on Rails with a global cross-functional team.</p>
       <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.5rem;">
@@ -924,7 +948,8 @@
     </div>
     <div class="case-card">
       <div class="card-num">04</div>
-      <h3 class="card-title" style="color:var(--ink);font-style:normal;">Chase Crypto Wallet</h3>
+      <h3 class="card-title" style="color:var(--ink);font-style:normal;margin-bottom:0.5rem;">Chase Crypto Wallet</h3>
+      <div><span class="outcome-pill pill-blue">Sized $1T TAM, targeting 300K sign-ups</span></div>
       <p class="card-body">A product case study for General Assembly proposing a cryptocurrency e-wallet feature inside the Chase mobile app. Defined the problem statement, sized a $1T TAM, conducted client research, built wireframes, and set OKRs targeting 300K new sign-ups and a 9 NPS.</p>
       <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
         <span style="padding:0.2rem 0.6rem;background:var(--paper-warm);border:1px solid var(--border);font-size:0.68rem;color:var(--ink-muted);letter-spacing:0.04em;">Fintech</span>
@@ -966,7 +991,8 @@
     <!-- Content panel -->
     <div class="panel-content">
       <p style="font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.75rem;">Case Study 05</p>
-      <h3 style="font-family:var(--serif);font-size:2.2rem;color:var(--ink);line-height:1.15;margin-bottom:1.25rem;">FreedomTrack</h3>
+      <h3 style="font-family:var(--serif);font-size:2.2rem;color:var(--ink);line-height:1.15;margin-bottom:0.5rem;">FreedomTrack</h3>
+      <div><span class="outcome-pill pill-yellow">Built 15+ AI modules end-to-end</span></div>
       <p style="font-size:0.95rem;color:var(--ink-soft);line-height:1.85;margin-bottom:2rem;">A full-stack AI personal finance dashboard built from scratch with React, TypeScript, and Google Gemini. Designed to help users track spending, eliminate debt, build wealth, and project their financial "freedom date" — with 15+ AI-powered modules working together as a cohesive product.</p>
 
       <!-- Feature grid -->
@@ -1020,7 +1046,8 @@
           In the Lab PM Bootcamp
         </a>
       </div>
-      <h3 style="font-family:var(--serif);font-size:2.2rem;color:var(--ink);line-height:1.15;margin-bottom:1.25rem;">Rentwise Austin</h3>
+      <h3 style="font-family:var(--serif);font-size:2.2rem;color:var(--ink);line-height:1.15;margin-bottom:0.5rem;">Rentwise Austin</h3>
+      <div><span class="outcome-pill pill-yellow">Built AI affordability tool end-to-end</span></div>
       <p style="font-size:0.95rem;color:var(--ink-soft);line-height:1.85;margin-bottom:0.75rem;"><strong style="color:var(--ink);font-weight:500;">Problem:</strong> First-time renters in Austin, TX have no clear way to understand what they can realistically afford — leading to rent burden, financial stress, and poor housing decisions.</p>
       <p style="font-size:0.95rem;color:var(--ink-soft);line-height:1.85;margin-bottom:2rem;"><strong style="color:var(--ink);font-weight:500;">Solution:</strong> Rentwise is an AI-powered affordability calculator that takes income, expenses, and savings goals and returns Conservative, Moderate, and Stretch rent budgets with Austin-specific market context, financial literacy resources, and personalized recommendations. Delivered as a full PM package: user personas, user stories, epics, PRD, one-pager, GTM strategy, 3-year roadmap, and working prototype.</p>
 
