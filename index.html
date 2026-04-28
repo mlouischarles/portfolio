@@ -531,6 +531,8 @@
       grid-template-columns: 1.2fr 1fr;
       gap: 6rem;
       align-items: start;
+      position: relative;
+      z-index: 40;
     }
     .contact-lead {
       font-family: var(--serif);
@@ -547,6 +549,8 @@
       margin-bottom: 2.5rem;
     }
     .contact-email {
+      position: relative;
+      z-index: 50;
       display: inline-flex;
       align-items: center;
       gap: 0.6rem;
@@ -561,6 +565,8 @@
     .contact-email:hover { color: var(--accent); border-color: var(--accent); }
     .contact-links { display: flex; flex-direction: column; gap: 1px; }
     .contact-link-item {
+      position: relative;
+      z-index: 50;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -607,8 +613,10 @@
       padding: 1rem;
       z-index: 1000;
       border-top: 1px solid rgba(255,255,255,0.1);
+      pointer-events: none;
     }
     .persistent-contact-bar a {
+      pointer-events: auto;
       color: var(--paper);
       text-decoration: none;
       font-size: 0.85rem;
@@ -1234,7 +1242,7 @@
 </section>
 
 <!-- Contact -->
-<section id="contact">
+<section id="contact" style="position: relative; z-index: 30;">
   <div class="section-header reveal">
     <span class="section-num">04</span>
     <h2 class="section-title">Contact</h2>
