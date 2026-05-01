@@ -628,6 +628,41 @@
     .persistent-contact-bar a:hover {
       color: var(--accent);
     }
+
+    .email-display {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      pointer-events: auto; /* Required since parent is none */
+    }
+    .email-text {
+      font-size: 1rem;
+      color: white;
+      font-family: monospace;
+    }
+    .email-copy-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.8);
+      padding: 4px 12px;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .email-copy-btn:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    .desktop-only-email { display: none; }
+    .mobile-only-email { display: block; }
+    @media (min-width: 768px) {
+      .desktop-only-email { display: flex; }
+      .mobile-only-email { display: none !important; }
+    }
+
     body { padding-bottom: 60px; } /* Prevent content from hiding behind the fixed bar */
 
     @media (max-width: 900px) {
@@ -1278,7 +1313,11 @@
 
 <!-- Persistent Contact Bar -->
 <div class="persistent-contact-bar">
-  <a href="mailto:mlouischarles@gmail.com" onclick="window.location.href='mailto:mlouischarles@gmail.com'; return false;" style="cursor:pointer;">EMAIL</a>
+  <a href="mailto:mlouischarles@gmail.com" class="mobile-only-email" onclick="window.location.href='mailto:mlouischarles@gmail.com'; return false;" style="cursor:pointer;">EMAIL</a>
+  <div class="email-display desktop-only-email">
+    <span class="email-text">mlouischarles@gmail.com</span>
+    <button class="email-copy-btn" onclick="navigator.clipboard.writeText('mlouischarles@gmail.com'); this.innerText='✓ Copied'; setTimeout(() => this.innerText='Copy', 2000);">Copy</button>
+  </div>
   <a href="https://www.linkedin.com/in/marc-louis-charles-5764628/" target="_blank">LinkedIn</a>
   <a href="https://mlouischarles.github.io/portfolio/Resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
 </div>
